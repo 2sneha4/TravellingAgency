@@ -50,8 +50,8 @@
   <div class="container">
     <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
       <div class="col-md-9 ftco-animate pb-5 text-center">
-         <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Tour List <i class="fa fa-chevron-right"></i></span></p>
-         <h1 class="mb-0 bread">Tours List</h1>
+         <p class="breadcrumbs"><span class="mr-2"><a href="index">Home <i class="fa fa-chevron-right"></i></a></span> <span>Destination <i class="fa fa-chevron-right"></i></span></p>
+         <h1 class="mb-0 bread">Destinations To Visit</h1>
      </div>
  </div>
 </div>
@@ -153,23 +153,40 @@
        </div>
    </div>
    </div>
+   <!-- Pagination -->
+   <div class="row mt-5">
+     <div class="col text-center">
+       <div class="block-27">
+         <ul>
+           <!-- Previous Set of Page Links -->
+           <li th:if="${currentPage > 4}">
+             <a th:href="@{/destination(page=${currentPage - 5}, size=20)}">&lt;&lt;</a>
+           </li>
 
-<div class="row mt-5">
-  <div class="col text-center">
-    <div class="block-27">
-      <ul>
-        <li><a href="#">&lt;</a></li>
-        <li class="active"><span>1</span></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&gt;</a></li>
-    </ul>
-</div>
-</div>
-</div>
-</div>
+           <!-- Previous Page Link -->
+           <li th:if="${currentPage > 0}">
+             <a th:href="@{/destination(page=${currentPage - 1}, size=20)}">&lt;</a>
+           </li>
+
+           <!-- Page Number Links -->
+           <li th:each="i : ${#numbers.sequence(startPage, endPage)}"
+               th:classappend="${i == currentPage} ? 'active' : ''">
+             <a th:href="@{/destination(page=${i}, size=20)}" th:text="${i + 1}"></a>
+           </li>
+
+           <!-- Next Page Link -->
+           <li th:if="${currentPage < totalPages - 1}">
+             <a th:href="@{/destination(page=${currentPage + 1}, size=20)}">&gt;</a>
+           </li>
+
+           <!-- Next Set of Page Links -->
+           <li th:if="${currentPage + 5 < totalPages}">
+             <a th:href="@{/destination(page=${currentPage + 5}, size=20)}">&gt;&gt;</a>
+           </li>
+         </ul>
+       </div>
+     </div>
+   </div>
 </section>
 
 
