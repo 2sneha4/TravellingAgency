@@ -33,12 +33,12 @@
 
      <div class="collapse navbar-collapse" id="ftco-nav">
        <ul class="navbar-nav ml-auto">
-         <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
-         <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-         <li class="nav-item"><a href="destination.html" class="nav-link">Destination</a></li>
-         <li class="nav-item active"><a href="hotel.html" class="nav-link">Hotel</a></li>
-         <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-         <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+         <li class="nav-item"><a href="index" class="nav-link">Home</a></li>
+         <li class="nav-item"><a href="about" class="nav-link">About</a></li>
+         <li class="nav-item"><a href="destination" class="nav-link">Destination</a></li>
+         <li class="nav-item active"><a href="hotel" class="nav-link">Hotel</a></li>
+         <li class="nav-item"><a href="blog" class="nav-link">Blog</a></li>
+         <li class="nav-item"><a href="contact" class="nav-link">Contact</a></li>
        </ul>
      </div>
    </div>
@@ -50,7 +50,7 @@
   <div class="container">
     <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
       <div class="col-md-9 ftco-animate pb-5 text-center">
-       <p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home <i class="fa fa-chevron-right"></i></a></span> <span>Hotel <i class="fa fa-chevron-right"></i></span></p>
+       <p class="breadcrumbs"><span class="mr-2"><a href="index">Home <i class="fa fa-chevron-right"></i></a></span> <span>Hotel <i class="fa fa-chevron-right"></i></span></p>
        <h1 class="mb-0 bread">Hotel</h1>
      </div>
    </div>
@@ -135,10 +135,10 @@
 <section class="ftco-section">
  <div class="container">
   <div class="row">
-   <div class="col-md-4 ftco-animate" th:each="hotel:${hotelDetailsMapping}">
+   <div class="col-md-4 ftco-animate" th:each="hotel:${hotels}">
     <div class="project-wrap hotel">
      <a href="#" class="img" style="background-image: url(images/hotel-resto-1.jpg);">
-      <span class="price" th:text="${hotel.value.getOffers()[0].getPrice().getCurrency()} + ' ' + ${hotel.value.getOffers()[0].getPrice().getTotal()} + ' / Day'"></span>
+      <span class="price" th:text="'$200 / Day'"></span>
     </a>
     <div class="text p-4">
       <p class="star mb-2">
@@ -149,8 +149,8 @@
         <span class="fa fa-star"></span>
       </p>
       <span class="days">8 Days Tour</span>
-      <h3 th:text="${hotel.value.getHotel().getName()}"><a href="#"></a></h3>
-      <p class="location"><span class="fa fa-map-marker" th:text="${hotel.value.getHotel().getCityCode()}"></span></p>
+      <h3 th:text="${hotel.getName()}"><a href="#"></a></h3>
+      <p class="location" th:text="${locationListDAO.getCityName(hotel.getIataCode())} + ' , ' + ${locationListDAO.getCountryName(hotel.getIataCode())}"><span class="fa fa-map-marker"></span></p>
       <ul>
        <li><span class="flaticon-shower"></span>2</li>
        <li><span class="flaticon-king-size"></span>3</li>
@@ -159,25 +159,44 @@
    </div>
  </div>
 </div>
+</div>
 
 
+<!-- Pagination -->
+  <div class="row mt-5">
+    <div class="col text-center">
+      <div class="block-27">
+        <ul>
+          <!-- Previous Set of Page Links -->
+          <li th:if="${currentPage > 4}">
+            <a th:href="@{/hotel(page=${currentPage - 5}, size=20)}">&lt;&lt;</a>
+          </li>
 
-<div class="row mt-5">
-  <div class="col text-center">
-    <div class="block-27">
-      <ul>
-        <li><a href="#">&lt;</a></li>
-        <li class="active"><span>1</span></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li><a href="#">&gt;</a></li>
-      </ul>
+          <!-- Previous Page Link -->
+          <li th:if="${currentPage > 0}">
+            <a th:href="@{/hotel(page=${currentPage - 1}, size=20)}">&lt;</a>
+          </li>
+
+          <!-- Page Number Links -->
+          <li th:each="i : ${#numbers.sequence(startPage, endPage)}"
+              th:classappend="${i == currentPage} ? 'active' : ''">
+            <a th:href="@{/hotel(page=${i}, size=20)}" th:text="${i + 1}"></a>
+          </li>
+
+          <!-- Next Page Link -->
+          <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/hotel(page=${currentPage + 1}, size=20)}">&gt;</a>
+          </li>
+
+          <!-- Next Set of Page Links -->
+          <li th:if="${currentPage + 5 < totalPages}">
+            <a th:href="@{/hotel(page=${currentPage + 5}, size=20)}">&gt;&gt;</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
-</div>
-</div>
+  
 </section>
 
 
