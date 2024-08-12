@@ -1,8 +1,8 @@
 package com.xpert.TravellingAgency.DAO;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.amadeus.resources.Hotel;
@@ -67,9 +67,9 @@ public class HotelListDAO {
 		}
 	}
 	
-	public List<com.xpert.TravellingAgency.model.Hotel> getHotelsByCity(String cityCode) {
+	public Page<com.xpert.TravellingAgency.model.Hotel> getHotelsByCity(String cityCode, Pageable pageable) {
 		
-		return hotelRepository.getHotelsByIataCode(cityCode);
+		return hotelRepository.getHotelsByIataCode(cityCode, pageable);
 	}
 
 }

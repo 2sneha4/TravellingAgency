@@ -1,15 +1,16 @@
 package com.xpert.TravellingAgency.repository;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import com.xpert.TravellingAgency.model.Hotel;
 
 @Repository
-public interface HotelRepository extends MongoRepository<Hotel, String>{
+public interface HotelRepository extends MongoRepository<Hotel, String>, PagingAndSortingRepository<Hotel, String> {
 	
-	List<Hotel> getHotelsByIataCode(String iataCode);
+	Page<Hotel> getHotelsByIataCode(String iataCode, Pageable pageable);
  
 }

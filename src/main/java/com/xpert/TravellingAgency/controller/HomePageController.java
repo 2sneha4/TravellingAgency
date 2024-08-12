@@ -39,7 +39,7 @@ public class HomePageController {
 	@Autowired
 	private LocationListDAO locationListDAO;
 	
-	@GetMapping("/")
+	@GetMapping("/index")
 	public String homePage(Model model) {
 		
 		return "index";
