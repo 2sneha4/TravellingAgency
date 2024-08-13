@@ -135,31 +135,20 @@
 <section class="ftco-section">
  <div class="container">
   <div class="row">
-   <div class="col-md-4 ftco-animate" th:each="hotel:${hotels}">
-    <div class="project-wrap hotel">
-     <a href="#" class="img" style="background-image: url(images/hotel-resto-1.jpg);">
-      <span class="price" th:text="'$200 / Day'"></span>
-    </a>
-    <div class="text p-4">
-      <p class="star mb-2">
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-      </p>
-      <span class="days">8 Days Tour</span>
-      <h3 th:text="${hotel.getName()}"><a href="#"></a></h3>
-      <p class="location" th:text="${locationListDAO.getCityName(hotel.getIataCode())} + ' , ' + ${locationListDAO.getCountryName(hotel.getIataCode())}"><span class="fa fa-map-marker"></span></p>
-      <ul>
-       <li><span class="flaticon-shower"></span>2</li>
-       <li><span class="flaticon-king-size"></span>3</li>
-       <li><span class="flaticon-mountains"></span>Near Mountain</li>
-     </ul>
-   </div>
- </div>
-</div>
-</div>
+	<div class="col-md-4 ftco-animate" th:each="hotel:${hotels}">
+		
+	    <div class="project-wrap hotel" th:data-hotel-id="${hotel.getHotelId()}" data-toggle="modal" data-target="#hotelModal">
+	        <a href="#" class="img" style="background-image: url(images/hotel-resto-1.jpg);">
+	        </a>
+	        <div class="text p-4">
+	           
+	            <h3 th:text="${hotel.getName()}"><a href="#"></a></h3>
+	            <p class="location" th:text="${locationListDAO.getCityName(hotel.getIataCode())} + ' , ' + ${locationListDAO.getCountryName(hotel.getIataCode())}">
+	                <span class="fa fa-map-marker"></span>
+	            </p>
+	        </div>
+	    </div>
+	</div>
 
 
 <!-- Pagination -->
@@ -199,7 +188,25 @@
   
 </section>
 
-
+<!-- Hotel Details Modal -->
+<div class="modal fade" id="hotelModal" tabindex="-1" role="dialog" aria-labelledby="hotelModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="hotelModalLabel">Hotel Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Modal content will be dynamically loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <section class="ftco-intro ftco-section ftco-no-pt">
  <div class="container">
@@ -301,6 +308,25 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 <script src="js/google-map.js"></script>
 <script src="js/main.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    $('#hotelModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var hotelId = button.data('hotel-id'); // Extract hotel ID from data attribute
+        // Use AJAX to fetch hotel details
+        $.ajax({
+            url: '/hotel/details', // URL to fetch hotel details
+            method: 'GET',
+            data: { id: hotelId },
+            success: function(data) {
+                // Populate modal with hotel details
+                $('#hotelModal .modal-body').html(data);
+            }
+        });
+    });
+});
+</script>
 
 </body>
 </html>
