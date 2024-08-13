@@ -46,7 +46,7 @@ public class HomePageController {
 	}
 	
 	@GetMapping("/download/hotels")
-	public String downloadDataFromAPI(@RequestParam String cityCode, Model model) {
+	public String downloadHotels(@RequestParam String cityCode, Model model) {
 		
 		Hotel[] hotels = hotelList.getHotels(cityCode);
 		hotelListDAO.saveHotelsInDB(hotels);
