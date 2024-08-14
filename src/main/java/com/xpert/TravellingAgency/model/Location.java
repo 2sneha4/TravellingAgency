@@ -2,12 +2,15 @@ package com.xpert.TravellingAgency.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "Locations")
 public class Location {
 	
 	  private String type;
 	  private String subType;
+	  
+	  @Field("name")
 	  private String name;
 	  private String detailedName;
 	  private String timeZoneOffset;

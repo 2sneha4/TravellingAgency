@@ -7,5 +7,7 @@ import com.xpert.TravellingAgency.model.Location;
 
 @Repository
 public interface LocationRepository extends MongoRepository<Location, String> {
+	
+	Location getLocationByName(String name);
 
 }
