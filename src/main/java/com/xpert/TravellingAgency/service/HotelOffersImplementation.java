@@ -24,10 +24,8 @@ private Amadeus amadeus;
 		
 		HotelOfferSearch[] hotelOffers = null;
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//		
-//		Date tenDaysAheadDate = new Date();
-		LocalDate tenDaysAheadDate = LocalDate.now().plusDays(20);
+		
+		LocalDate tenDaysAheadDate = LocalDate.now().plusDays(14);
 								
 		try {
 			hotelOffers = amadeus.shopping.hotelOffersSearch.get(Params
