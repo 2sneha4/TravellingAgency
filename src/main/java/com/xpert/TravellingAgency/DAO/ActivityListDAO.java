@@ -53,8 +53,9 @@ public class ActivityListDAO {
 		}
 	}
 	
-	public Page<com.xpert.TravellingAgency.model.Activity> getAllActivities(Pageable pageable) {
-		return activityRepository.findAll(pageable);
+	public Page<com.xpert.TravellingAgency.model.Activity> getAllActivitiesByCity(double latitude, double longitude, double radius, Pageable pageable) {
+		double radian = radius / 6371;
+		return activityRepository.findAllByLocationWithinRadius(latitude, longitude, radian, pageable);
 	}
 
 }

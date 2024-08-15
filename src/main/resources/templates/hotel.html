@@ -28,7 +28,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="index.html">Pacific<span>Travel Agency</span></a>
+			<a class="navbar-brand" href="/">Pacific<span>Travel Agency</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
 				aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="oi oi-menu"></span> Menu
@@ -36,7 +36,7 @@
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item"><a href="index" class="nav-link">Home</a></li>
+					<li class="nav-item"><a href="/" class="nav-link">Home</a></li>
 					<li class="nav-item"><a href="about" class="nav-link">About</a></li>
 					<li class="nav-item"><a href="destination" class="nav-link">Destination</a></li>
 					<li class="nav-item active"><a href="hotel" class="nav-link">Hotel</a></li>
@@ -53,7 +53,7 @@
 		<div class="container">
 			<div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
 				<div class="col-md-9 ftco-animate pb-5 text-center">
-					<p class="breadcrumbs"><span class="mr-2"><a href="index">Home <i
+					<p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i
 									class="fa fa-chevron-right"></i></a></span> <span>Hotel <i
 								class="fa fa-chevron-right"></i></span></p>
 					<h1 class="mb-0 bread">Hotel</h1>
@@ -67,10 +67,10 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="search-wrap-1 ftco-animate">
-
+	
 						<form class="search-property-1">
 							<div class="row no-gutters">
-
+	
 								<div class="col-lg d-flex">
 									<div class="form-group p-4">
 										<label for="select-city">Destination</label>
@@ -85,8 +85,8 @@
 										</div>
 									</div>
 								</div>
-
-
+	
+	
 								<div class="col-lg d-flex">
 									<div class="form-group p-4">
 										<label for="#">Check-in date</label>
@@ -157,11 +157,11 @@
 
 					<div class="project-wrap hotel" th:data-hotel-id="${hotel.getHotelId()}" data-toggle="modal"
 						data-target="#hotelModal">
-						<a href="#" class="img" style="background-image: url(images/hotel-resto-1.jpg);">
+						<a class="img" style="background-image: url(images/hotel-resto-1.jpg);">
 						</a>
 						<div class="text p-4">
 
-							<h3 th:text="${hotel.getName()}"><a href="#"></a></h3>
+							<h3 th:text="${hotel.getName()}"><a></a></h3>
 							<p class="location"
 								th:text="${locationListDAO.getCityName(hotel.getIataCode())} + ' , ' + ${locationListDAO.getCountryName(hotel.getIataCode())}">
 								<span class="fa fa-map-marker"></span>
@@ -170,6 +170,7 @@
 					</div>
 				</div>
 			</div>
+		</div>
 			<!-- Pagination -->
 			<div class="row mt-5">
 				<div class="col text-center">
@@ -339,78 +340,79 @@
 	<script src="js/jquery.animateNumber.min.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/scrollax.min.js"></script>
-	<script
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 	<script src="js/google-map.js"></script>
 	<script src="js/main.js"></script>
 
-	<script>
-		$(document).ready(function () {
-			alert("loading")
-			//document.addEventListener('DOMContentLoaded', function () {
-				$('#hotelModal').on('show.bs.modal', function (event) {
-					alert("------"+event);
-					var button = $(event.relatedTarget); // Button that triggered the modal
-					var hotelId = button.data('hotel-id'); // Extract hotel ID from data attribute
-					// Use AJAX to fetch hotel details
-					alert(hotelId);
-					$.ajax({
-						url: '/hotel/details', // URL to fetch hotel details
-						method: 'GET',
-						data: {id: hotelId},
-						success: function (data) {
-							// Populate modal with hotel details
-							$('#hotelModal .modal-body').html(data);
-						}
+<script>
+			
+	$('.project-wrap.hotel').on('click',function() {
+		var button = $(this); // Element that triggered the modal
+		    var hotelId = button.data('hotel-id'); // Extract hotel ID from data attribute
+		    console.log("Hotel ID:", hotelId); // Debug log
+		    
+		    // Use AJAX to fetch hotel details
+		    $.ajax({
+		        url: '/hotel/details',
+		        method: 'GET',
+		        data: { id: hotelId },
+		        success: function (data) {
+		            // Populate modal with hotel details
+		            $('#hotelModal .modal-body').html(data);
+		            $('#hotelModal').modal('show'); // Show the modal
+		        }
+		    });
+	});
+	
+</script>
+
+<script>
+	
+	$('#select-city').on('click', function () {
+		$.ajax({
+			url: '/hotel/cities',
+			method: 'GET',
+			success: function (cities) {
+				var dropdown = $('#select-city');
+				dropdown.empty();
+				if (cities.length > 0) {
+					cities.forEach(function (city) {
+						dropdown.append('<option value="' + city + '">' + city + '</option>');
 					});
-				});
-			//});
-
-
-			$('#select-city').on('click', function () {
-				$.ajax({
-					url: '/hotel/cities',
-					method: 'GET',
-					success: function (cities) {
-						var dropdown = $('#select-city');
-						dropdown.empty();
-						if (cities.length > 0) {
-							cities.forEach(function (city) {
-								dropdown.append('<option value="' + city + '">' + city + '</option>');
-							});
-							dropdown.show();
-						} else {
-							dropdown.hide();
-						}
-					}
-				});
-			});
-
-
-
-			$('#search-button').on('click', function (event) {
-				event.preventDefault(); // Prevent the default form submission
-
-				var cityName = $('#select-city').val();
-				$.ajax({
-					url: '/hotel',
-					method: 'GET',
-					data: {
-						city: cityName
-					},
-					success: function (data) {
-						console.log(data)
-						//document.getElementById("showHotels").innerHTML = data;
-
-						//$("#showHotels").html(data)
-						document.write(data)
-						// Update the page content with the new HTML
-					}
-
-				});
-			});
+					dropdown.show();
+				} else {
+					dropdown.hide();
+				}
+			}
 		});
-	</script>
+	});
+
+</script>
+
+<script>
+	
+	$('#search-button').on('click', function (event) {
+		event.preventDefault(); // Prevent the default form submission
+	
+		var cityName = $('#select-city').val();
+		$.ajax({
+			url: '/hotel',
+			method: 'GET',
+			data: {
+				city: cityName
+			},
+			success: function (data) {
+				console.log(data)
+	
+				//$("#showHotels").html(data)
+				document.write(data)
+				// Update the page content with the new HTML
+			}
+	
+		});
+	});	
+		
+</script>
 </body>
 
 </html>

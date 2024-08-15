@@ -1,5 +1,7 @@
 package com.xpert.TravellingAgency.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,7 @@ import com.xpert.TravellingAgency.service.HotelList;
 import com.xpert.TravellingAgency.service.LocationList;
 
 @Controller
-@RequestMapping
+@RequestMapping("/")
 public class HomePageController {
 	
 	@Autowired
@@ -39,8 +41,12 @@ public class HomePageController {
 	@Autowired
 	private LocationListDAO locationListDAO;
 	
-	@GetMapping("/index")
+	@GetMapping
 	public String homePage(Model model) {
+		
+		List<com.xpert.TravellingAgency.model.Location> locations = locationListDAO.getAllLocations();
+		
+		model.addAttribute("locations", locations);
 		
 		return "index";
 	}

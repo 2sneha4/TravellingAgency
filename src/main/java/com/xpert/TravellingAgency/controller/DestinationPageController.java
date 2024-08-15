@@ -1,5 +1,7 @@
 package com.xpert.TravellingAgency.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xpert.TravellingAgency.DAO.ActivityListDAO;
 import com.xpert.TravellingAgency.DAO.LocationListDAO;
@@ -29,14 +32,19 @@ public class DestinationPageController {
 	LocationListDAO locationListDAO;
 	
 	@GetMapping
-	public String hotelPage(
+	public String destinationPage(
 			@RequestParam(name = "page", defaultValue = "0") int page,
 	        @RequestParam(name = "size", defaultValue = "20") int size,
+	        @RequestParam(name = "city", defaultValue = "PARIS") String cityName,
 	        Model model) {
 				
 		Pageable pageable = PageRequest.of(page, size);
-        Page<Activity> activityPage = activityListDAO.getAllActivities(pageable);
-        
+		
+		double latitude = locationListDAO.getLatitude(cityName);
+		double longitude = locationListDAO.getLongitude(cityName);
+		
+        Page<Activity> activityPage = activityListDAO.getAllActivitiesByCity(latitude, longitude, 20, pageable);
+                
         // Calculate the start and end page numbers for display
         int totalPages = activityPage.getTotalPages();
         int startPage = Math.max(0, page - 2); // Display up to 2 pages before the current page
@@ -55,10 +63,19 @@ public class DestinationPageController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
+        model.addAttribute("cityName", cityName);
         
 		model.addAttribute("locationListDAO", locationListDAO);
 		
 		return "destination";
+	}
+	
+	@GetMapping("/cities")
+	@ResponseBody
+	public List<String> getAllCities() {
+		
+		List<String> cities = locationListDAO.getAllCities();
+		return cities;
 	}
 
 }

@@ -79,5 +79,17 @@ public class LocationListDAO {
 		return locationRepository.getLocationByName(cityName).getIataCode();
 		
 	}
+	
+	public List<com.xpert.TravellingAgency.model.Location> getAllLocations() {
+		return locationRepository.findAll();
+	}
+	
+	public double getLatitude(String cityName) {
+		return locationRepository.findById(getCityCode(cityName)).get().getGeoCode().getLatitude();
+	}
+	
+	public double getLongitude(String cityName) {
+		return locationRepository.findById(getCityCode(cityName)).get().getGeoCode().getLongitude();
+	}
 
 }

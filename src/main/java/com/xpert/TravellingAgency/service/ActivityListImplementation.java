@@ -27,7 +27,8 @@ public class ActivityListImplementation implements ActivityList{
 		try {
 			activities = amadeus.shopping.activities.get(Params
 					   .with("latitude", latitude)
-					   .and("longitude", longitude));
+					   .and("longitude", longitude)
+					   .and("radius", 20));
 		} catch (ResponseException e) {
 			
 			e.printStackTrace();
