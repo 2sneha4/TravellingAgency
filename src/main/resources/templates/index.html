@@ -26,14 +26,14 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="index.html">Pacific<span>Travel Agency</span></a>
+			<a class="navbar-brand" href="/">Pacific<span>Travel Agency</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="oi oi-menu"></span> Menu
 			</button>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a href="index" class="nav-link">Home</a></li>
+					<li class="nav-item active"><a href="/" class="nav-link">Home</a></li>
 					<li class="nav-item"><a href="about" class="nav-link">About</a></li>
 					<li class="nav-item"><a href="destination" class="nav-link">Destination</a></li>
 					<li class="nav-item"><a href="hotel" class="nav-link">Hotel</a></li>
@@ -290,56 +290,19 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="carousel-destination owl-carousel ftco-animate">
-							<div class="item">
+							
+							<div class="item" th:each="location:${locations}">
 								<div class="project-destination">
 									<a href="#" class="img" style="background-image: url(images/place-1.jpg);">
 										<div class="text">
-											<h3>Philippines</h3>
-											<span>8 Tours</span>
+											<h3 th:text="${location.getName()}"></h3>
+											<span th:text="${location.getAddress().getCountryName()}"></span>
 										</div>
 									</a>
 								</div>
 							</div>
-							<div class="item">
-								<div class="project-destination">
-									<a href="#" class="img" style="background-image: url(images/place-2.jpg);">
-										<div class="text">
-											<h3>Canada</h3>
-											<span>2 Tours</span>
-										</div>
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="project-destination">
-									<a href="#" class="img" style="background-image: url(images/place-3.jpg);">
-										<div class="text">
-											<h3>Thailand</h3>
-											<span>5 Tours</span>
-										</div>
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="project-destination">
-									<a href="#" class="img" style="background-image: url(images/place-4.jpg);">
-										<div class="text">
-											<h3>Autralia</h3>
-											<span>5 Tours</span>
-										</div>
-									</a>
-								</div>
-							</div>
-							<div class="item">
-								<div class="project-destination">
-									<a href="#" class="img" style="background-image: url(images/place-5.jpg);">
-										<div class="text">
-											<h3>Greece</h3>
-											<span>7 Tours</span>
-										</div>
-									</a>
-								</div>
-							</div>
+							
+							
 						</div>
 					</div>
 				</div>

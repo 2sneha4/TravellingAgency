@@ -43,9 +43,8 @@ public class HotelPageController {
 	        @RequestParam(name = "city", defaultValue = "PARIS") String cityName,
 	        Model model) {
 		
-		System.out.println(cityName);
 		String cityCode = locationListDAO.getCityCode(cityName);
-		System.out.println(cityCode);
+		
 		Pageable pageable = PageRequest.of(page, size);
         Page<Hotel> hotelPage = hotelListDAO.getHotelsByCity(cityCode, pageable);
         
