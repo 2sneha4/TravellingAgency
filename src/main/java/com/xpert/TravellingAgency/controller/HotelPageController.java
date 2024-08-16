@@ -41,6 +41,11 @@ public class HotelPageController {
 			@RequestParam(name = "page", defaultValue = "0") int page,
 	        @RequestParam(name = "size", defaultValue = "20") int size,
 	        @RequestParam(name = "city", defaultValue = "PARIS") String cityName,
+	        @RequestParam(name = "ajax", defaultValue = "false") boolean ajax,
+	        @RequestParam(name = "checkindate", required = false) String checkInDate,
+	        @RequestParam(name = "checkoutdate", required = false) String checkOutDate,
+	        @RequestParam(name = "rooms", defaultValue = "1") int rooms,
+	        @RequestParam(name = "guests", defaultValue = "1") int guests,
 	        Model model) {
 		
 		String cityCode = locationListDAO.getCityCode(cityName);
@@ -67,18 +72,42 @@ public class HotelPageController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("cityName",cityName);
+        model.addAttribute("checkInDate",checkInDate);
+        model.addAttribute("checkOutDate",checkOutDate);
+        model.addAttribute("rooms",rooms);
+        model.addAttribute("guests",guests);
         
 		model.addAttribute("locationListDAO", locationListDAO);
+		
+		if(ajax)
+			return "fragments/hotel-fragment :: hotelFragment";
 		
 		return "hotel";
 	}
 	
 	@GetMapping("/details")
-	public String getHotelDetails(@RequestParam("id") String hotelId, Model model) {
+	public String getHotelDetails(
+			@RequestParam("id") String hotelId,
+			@RequestParam(name = "checkindate", required = false) String checkInDate,
+	        @RequestParam(name = "checkoutdate", required = false) String checkOutDate,
+	        @RequestParam(name = "rooms", defaultValue = "1") int rooms,
+	        @RequestParam(name = "guests", defaultValue = "1") int guests,
+			Model model) {
 		
-		System.out.println("hotelId"+hotelId);
-		HotelOfferSearch[] hotelOfferSearch = hotelOffers.getHotelOffers(hotelId);
-		model.addAttribute("hotel", hotelOfferSearch[0]);
+		System.out.println(checkInDate);
+		
+		HotelOfferSearch[] hotelOfferSearch = hotelOffers.getHotelOffers(hotelId, checkInDate, checkOutDate, rooms, guests);
+		
+		if(hotelOfferSearch[0].getResponse().getStatusCode() == 400)
+			model.addAttribute("message", "NO ROOMS AVAILABLE AT REQUESTED PROPERTY");
+		
+		else if(hotelOfferSearch[0].getResponse().getStatusCode() == 500)
+			model.addAttribute("message", "Internal server error");
+		
+		else {
+			model.addAttribute("message", "OK");
+			model.addAttribute("hotel", hotelOfferSearch[0]);
+		}
 		return "fragments/hotel-details :: hotelDetails";
 		
 	}

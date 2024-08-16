@@ -20,21 +20,61 @@ private Amadeus amadeus;
 	}
 	
 	@Override
-	public HotelOfferSearch[] getHotelOffers(String hotelId) {
+	public HotelOfferSearch[] getHotelOffers(String hotelId, String checkInDate, String checkOutDate, int rooms, int guests) {
 		
 		HotelOfferSearch[] hotelOffers = null;
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		
-		LocalDate tenDaysAheadDate = LocalDate.now().plusDays(14);
+		LocalDate checkIn = null;
+		LocalDate checkOut = null;
+		
+		if(checkInDate == null || checkInDate == "") {
+			
+			checkIn = LocalDate.now();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			
+			checkInDate = checkIn.format(formatter).toString();
+		}
+		else {
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+	
+			checkIn = LocalDate.parse(checkInDate, formatter);
+			
+			DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			checkInDate = checkIn.format(newFormatter).toString();
+		}
+		
+		if(checkOutDate == null || checkOutDate == "") {
+			
+			checkOut = checkIn.plusDays(1);
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			
+			checkOutDate = checkOut.format(formatter).toString();
+			
+		}
+		
+		else {
+			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+			
+			checkOut = LocalDate.parse(checkInDate, formatter);
+			
+			DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			checkInDate = checkOut.format(newFormatter).toString();
+		}
+		
 								
 		try {
 			hotelOffers = amadeus.shopping.hotelOffersSearch.get(Params
-					  .with("hotelIds", "MCLONGHM")
-					  .and("adults", 1)
-					  .and("checkInDate", tenDaysAheadDate.format(formatter).toString())
-					  .and("roomQuantity", 1)
+					  .with("hotelIds", "BWBOS023")
+					  .and("adults", guests)
+					  .and("checkInDate", checkInDate)
+					  .and("checkOutDate", checkOutDate)
+					  .and("roomQuantity", rooms)
 					  .and("paymentPolicy", "NONE")
-					  .and("bestRateOnly", true));
+					  .and("bestRateOnly", true));				
+			
 		} catch (ResponseException e) {
 			e.printStackTrace();
 		}
