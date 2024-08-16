@@ -21,10 +21,18 @@ public class Location {
 	  private GeoCode geoCode;
 	  private Address address;
 	  private Double relevance;
+	  
+	  private String picture;
 
 	  public Location() {}
 	  
+	  public String getPicture() {
+		  return picture;
+	  }
 	  
+	  public void setPicture(String picture) {
+		  this.picture = picture;
+	  }
 
 	  public String getType() {
 		return type;

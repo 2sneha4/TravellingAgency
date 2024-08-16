@@ -36,6 +36,7 @@ public class DestinationPageController {
 			@RequestParam(name = "page", defaultValue = "0") int page,
 	        @RequestParam(name = "size", defaultValue = "20") int size,
 	        @RequestParam(name = "city", defaultValue = "PARIS") String cityName,
+	        @RequestParam(name = "ajax", defaultValue = "false") boolean ajax,
 	        Model model) {
 				
 		Pageable pageable = PageRequest.of(page, size);
@@ -66,6 +67,9 @@ public class DestinationPageController {
         model.addAttribute("cityName", cityName);
         
 		model.addAttribute("locationListDAO", locationListDAO);
+		
+		if(ajax)
+			return "fragments/activity-fragment :: activityFragment";
 		
 		return "destination";
 	}

@@ -1,0 +1,67 @@
+<!-- fragments/hotel-details.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+   
+</head>
+	<body>
+	<div th:fragment="hotelFragment">
+		<section class="ftco-section" id="showHotels">
+		<div class="container">
+		<div class="row">
+			<div class="col-md-4 ftco-animate" th:each="hotel:${hotels}">
+		
+				<div class="project-wrap hotel" th:data-hotel-id="${hotel.getHotelId()}" data-toggle="modal"
+					data-target="#hotelModal">
+					<a class="img" style="background-image: url(images/hotel-resto-1.jpg);">
+					</a>
+					<div class="text p-4">
+		
+						<h3 th:text="${hotel.getName()}"><a></a></h3>
+						<p class="location"
+							th:text="${locationListDAO.getCityName(hotel.getIataCode())} + ' , ' + ${locationListDAO.getCountryName(hotel.getIataCode())}">
+							<span class="fa fa-map-marker"></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row mt-5">
+			<div class="col text-center">
+				<div class="block-27">
+					<ul>
+						<!-- Previous Set of Page Links -->
+						<li th:if="${currentPage > 4}">
+							<a th:href="@{/hotel(page=${currentPage - 5}, size=20, city=${cityName})}">&lt;&lt;</a>
+						</li>
+
+						<!-- Previous Page Link -->
+						<li th:if="${currentPage > 0}">
+							<a th:href="@{/hotel(page=${currentPage - 1}, size=20, city=${cityName})}">&lt;</a>
+						</li>
+
+						<!-- Page Number Links -->
+						<li th:each="i : ${#numbers.sequence(startPage, endPage)}"
+							th:classappend="${i == currentPage} ? 'active' : ''">
+							<a th:href="@{/hotel(page=${i}, size=20, city=${cityName})}" th:text="${i + 1}"></a>
+						</li>
+
+						<!-- Next Page Link -->
+						<li th:if="${currentPage < totalPages - 1}">
+							<a th:href="@{/hotel(page=${currentPage + 1}, size=20, city=${cityName})}">&gt;</a>
+						</li>
+
+						<!-- Next Set of Page Links -->
+						<li th:if="${currentPage + 5 < totalPages}">
+							<a th:href="@{/hotel(page=${currentPage + 5}, size=20, city=${cityName})}">&gt;&gt;</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		</div>
+		</section>
+	</div>
+	</body>
+</html>

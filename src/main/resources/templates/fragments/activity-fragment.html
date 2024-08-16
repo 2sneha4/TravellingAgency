@@ -1,0 +1,63 @@
+<!-- fragments/hotel-details.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+   
+</head>
+	<body>
+	<div th:fragment="activityFragment">
+		<section class="ftco-section" id="showActivities">
+		   <div class="container">
+		    <div class="row">
+		       <div class="col-md-4 ftco-animate" th:each="activity:${activities}">
+		          <div class="project-wrap">
+					<a href="#" class="img" th:style="'background-image: url(' + ${activity.getPictures() != null && activity.getPictures().length > 0 ? activity.getPictures()[0] : '/images/default-image.jpg'} + ');'">              
+					<span class="price" th:text="${activity.getPrice() != null && activity.getPrice().getAmount() != null && activity.getPrice().getCurrencyCode() != null ? (activity.getPrice().getCurrencyCode() + ' ' + activity.getPrice().getAmount()) : 'Price Not Available'}"></span>
+		        </a>
+		            <div class="text p-4">
+		                <span class="days" th:text="${activity.getMinimumDuration() != null && activity.getMinimumDuration() != '' ? activity.getMinimumDuration() : 'Duration Not Available'}"></span>
+		                <h3><a href="#" th:text="${activity.getName()}"></a></h3>
+		                <p class="location" th:text="${cityName + ' , ' + locationListDAO.getCountryName(locationListDAO.getCityCode(cityName))}"><span class="fa fa-map-marker"></span></p>
+		           </div>
+		       </div>
+		   </div>
+		   </div>
+		   <!-- Pagination -->
+			<div class="row mt-5">
+				<div class="col text-center">
+					<div class="block-27">
+						<ul>
+							<!-- Previous Set of Page Links -->
+							<li th:if="${currentPage > 4}">
+								<a th:href="@{/destination(page=${currentPage - 5}, size=20, city=${cityName})}">&lt;&lt;</a>
+							</li>
+
+							<!-- Previous Page Link -->
+							<li th:if="${currentPage > 0}">
+								<a th:href="@{/destination(page=${currentPage - 1}, size=20, city=${cityName})}">&lt;</a>
+							</li>
+
+							<!-- Page Number Links -->
+							<li th:each="i : ${#numbers.sequence(startPage, endPage)}"
+								th:classappend="${i == currentPage} ? 'active' : ''">
+								<a th:href="@{/destination(page=${i}, size=20, city=${cityName})}" th:text="${i + 1}"></a>
+							</li>
+
+							<!-- Next Page Link -->
+							<li th:if="${currentPage < totalPages - 1}">
+								<a th:href="@{/destination(page=${currentPage + 1}, size=20, city=${cityName})}">&gt;</a>
+							</li>
+
+							<!-- Next Set of Page Links -->
+							<li th:if="${currentPage + 5 < totalPages}">
+								<a th:href="@{/destination(page=${currentPage + 5}, size=20, city=${cityName})}">&gt;&gt;</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+	</div>
+	</body>
+	</html>
