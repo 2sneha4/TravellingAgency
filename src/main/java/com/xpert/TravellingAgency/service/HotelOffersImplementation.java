@@ -8,6 +8,9 @@ import com.amadeus.Amadeus;
 import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
 import com.amadeus.resources.HotelOfferSearch;
+import com.xpert.TravellingAgency.exceptions.AmadeusBadRequestException;
+import com.xpert.TravellingAgency.exceptions.AmadeusGeneralException;
+import com.xpert.TravellingAgency.exceptions.AmadeusInternalServerErrorException;
 
 @Service
 public class HotelOffersImplementation implements HotelOffers{
@@ -67,7 +70,7 @@ private Amadeus amadeus;
 								
 		try {
 			hotelOffers = amadeus.shopping.hotelOffersSearch.get(Params
-					  .with("hotelIds", "BWBOS023")
+					  .with("hotelIds", hotelId)
 					  .and("adults", guests)
 					  .and("checkInDate", checkInDate)
 					  .and("checkOutDate", checkOutDate)
@@ -76,7 +79,16 @@ private Amadeus amadeus;
 					  .and("bestRateOnly", true));				
 			
 		} catch (ResponseException e) {
-			e.printStackTrace();
+			int statusCode = e.getResponse().getStatusCode();
+
+            switch (statusCode) {
+                case 400:
+                    throw new AmadeusBadRequestException("Bad Request: Invalid Parameters.");
+                case 500:
+                    throw new AmadeusInternalServerErrorException("Internal Server Error: Please try again later.");
+                default:
+                    throw new AmadeusGeneralException("An unexpected error occurred. Status code: " + statusCode);
+            }
 		}
 		
 		return hotelOffers;

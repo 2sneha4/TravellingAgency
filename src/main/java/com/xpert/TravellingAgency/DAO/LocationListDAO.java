@@ -91,5 +91,9 @@ public class LocationListDAO {
 	public double getLongitude(String cityName) {
 		return locationRepository.findById(getCityCode(cityName)).get().getGeoCode().getLongitude();
 	}
+	
+	public com.xpert.TravellingAgency.model.Location getLocationByCity(String cityName) {
+		return locationRepository.findById(getCityCode(cityName)).get();
+	}
 
 }

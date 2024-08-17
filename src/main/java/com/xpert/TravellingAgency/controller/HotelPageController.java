@@ -13,12 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.amadeus.resources.HotelOfferSearch;
 import com.xpert.TravellingAgency.DAO.HotelListDAO;
 import com.xpert.TravellingAgency.DAO.LocationListDAO;
 import com.xpert.TravellingAgency.model.Hotel;
 import com.xpert.TravellingAgency.service.HotelList;
-import com.xpert.TravellingAgency.service.HotelOffers;
 
 @Controller
 @RequestMapping("/hotel")
@@ -32,9 +30,6 @@ public class HotelPageController {
 	
 	@Autowired
 	LocationListDAO locationListDAO;
-	
-	@Autowired
-	HotelOffers hotelOffers;
 	
 	@GetMapping
 	public String hotelPage(
@@ -83,33 +78,6 @@ public class HotelPageController {
 			return "fragments/hotel-fragment :: hotelFragment";
 		
 		return "hotel";
-	}
-	
-	@GetMapping("/details")
-	public String getHotelDetails(
-			@RequestParam("id") String hotelId,
-			@RequestParam(name = "checkindate", required = false) String checkInDate,
-	        @RequestParam(name = "checkoutdate", required = false) String checkOutDate,
-	        @RequestParam(name = "rooms", defaultValue = "1") int rooms,
-	        @RequestParam(name = "guests", defaultValue = "1") int guests,
-			Model model) {
-		
-		System.out.println(checkInDate);
-		
-		HotelOfferSearch[] hotelOfferSearch = hotelOffers.getHotelOffers(hotelId, checkInDate, checkOutDate, rooms, guests);
-		
-		if(hotelOfferSearch[0].getResponse().getStatusCode() == 400)
-			model.addAttribute("message", "NO ROOMS AVAILABLE AT REQUESTED PROPERTY");
-		
-		else if(hotelOfferSearch[0].getResponse().getStatusCode() == 500)
-			model.addAttribute("message", "Internal server error");
-		
-		else {
-			model.addAttribute("message", "OK");
-			model.addAttribute("hotel", hotelOfferSearch[0]);
-		}
-		return "fragments/hotel-details :: hotelDetails";
-		
 	}
 	
 	@GetMapping("/cities")
