@@ -39,7 +39,7 @@ public class DownloadDataController {
 	@Autowired
 	private LocationListDAO locationListDAO;
 	
-	@GetMapping("/download/hotels")
+	@GetMapping("/hotels")
 	public String downloadHotels(@RequestParam String cityCode, Model model) {
 		
 		Hotel[] hotels = hotelList.getHotels(cityCode);
@@ -48,7 +48,7 @@ public class DownloadDataController {
 		
 	}
 	
-	@GetMapping("/download/activities")
+	@GetMapping("/activities")
 	public String downloadActivities(@RequestParam double latitude, @RequestParam double longitude, Model model) {
 		
 		Activity[] activities = activityList.getActivitiesByGeoCode(latitude, longitude);
@@ -56,7 +56,7 @@ public class DownloadDataController {
 		return "Downloaded Successfully";
 	}
 	
-	@GetMapping("/download/locations")
+	@GetMapping("/locations")
 	public String downloadCityWithCountryDetails(@RequestParam String keyword, Model model) {
 		
 		Location[] locations = locationList.getLocationsByKeyword(keyword);
