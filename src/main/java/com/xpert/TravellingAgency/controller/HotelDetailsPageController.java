@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.amadeus.resources.HotelOfferSearch;
+import com.xpert.TravellingAgency.DAO.LocationListDAO;
 import com.xpert.TravellingAgency.service.HotelOffers;
 
 @Controller
@@ -17,6 +18,9 @@ public class HotelDetailsPageController {
 	
 	@Autowired
 	HotelOffers hotelOffers;
+	
+	@Autowired
+	LocationListDAO locationListDAO;
 	
 	@GetMapping
 	public String getHotelDetails(
@@ -32,6 +36,7 @@ public class HotelDetailsPageController {
 		HotelOfferSearch[] hotelOfferSearch = hotelOffers.getHotelOffers(hotelId, checkInDate, checkOutDate, rooms, guests);
 		
 		model.addAttribute("hotel", hotelOfferSearch[0]);
+		model.addAttribute("locationListDAO", locationListDAO);
 		
 		return "hotel-details";
 		
