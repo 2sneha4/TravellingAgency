@@ -1,5 +1,6 @@
 package com.xpert.TravellingAgency.service;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -8,6 +9,8 @@ import com.amadeus.Amadeus;
 import com.amadeus.Params;
 import com.amadeus.exceptions.ResponseException;
 import com.amadeus.resources.HotelOfferSearch;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xpert.TravellingAgency.exceptions.AmadeusBadRequestException;
 import com.xpert.TravellingAgency.exceptions.AmadeusGeneralException;
 import com.xpert.TravellingAgency.exceptions.AmadeusInternalServerErrorException;
@@ -61,10 +64,10 @@ private Amadeus amadeus;
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 			
-			checkOut = LocalDate.parse(checkInDate, formatter);
+			checkOut = LocalDate.parse(checkOutDate, formatter);
 			
 			DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			checkInDate = checkOut.format(newFormatter).toString();
+			checkOutDate = checkOut.format(newFormatter).toString();
 		}
 		
 								
@@ -79,15 +82,31 @@ private Amadeus amadeus;
 					  .and("bestRateOnly", true));				
 			
 		} catch (ResponseException e) {
+			
+			
 			int statusCode = e.getResponse().getStatusCode();
+			String errorMessage = "An unexpected error occurred";
+			
+			 try {
+	                // Parse JSON error response using Jackson
+	                ObjectMapper mapper = new ObjectMapper();
+	                JsonNode errorResponse = mapper.readTree(e.getResponse().getBody());
 
+	                if (errorResponse.has("title")) {
+	                    errorMessage = errorResponse.get("title").asText();  // Extract the "title" field
+	                }
+
+	            } catch (IOException ioException) {
+	                ioException.printStackTrace(); // Log JSON parsing error
+	          }
+			 
             switch (statusCode) {
                 case 400:
-                    throw new AmadeusBadRequestException("Bad Request: Invalid Parameters.");
+                    throw new AmadeusBadRequestException(errorMessage);
                 case 500:
                     throw new AmadeusInternalServerErrorException("Internal Server Error: Please try again later.");
                 default:
-                    throw new AmadeusGeneralException("An unexpected error occurred. Status code: " + statusCode);
+                    throw new AmadeusGeneralException(errorMessage);
             }
 		}
 		
