@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+	<title>Pacific - Travelling Agency</title>
+		
+    <!-- Include any necessary styles or scripts here -->
+	<style>
+	.alert {
+	    padding: 15px;
+	    margin: 20px 0;
+	    border-radius: 4px;
+	    color: #fff;
+	}
+
+	.alert-danger {
+	    background-color: #f44336;
+	}
+
+	.alert-warning {
+	    background-color: #ff9800;
+	}
+	</style>
+</head>
+
+<body>
+        <!-- Display hotel details if message is OK -->
+            <h1>Here is the data for Hotel!!</h1>
+            <h4 th:text="${hotel.getHotel().getName()}"></h4>
+            <p th:text="${hotel.getOffers()[0].getDescription()}"></p>
+            <p>Price: <span th:text="${hotel.getOffers()[0].getPrice().getTotal()}"></span></p>
+            <!-- Add other hotel details here -->
+</body>
+
+</html>
