@@ -21,13 +21,11 @@ public class LoginController {
     @Autowired
     private UserAccountService userAccountService;
 
-    // Display the login form
     @GetMapping("/login")
     public String showLoginForm() {
-        return "login"; // Return the name of the HTML file (login.html)
+        return "login"; 
     }
 
-    // Handle login form submission
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<Map<String, String>> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
@@ -40,16 +38,14 @@ public class LoginController {
             response.put("message", "Login successful");
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            // Authentication failed
             response.put("error", "Invalid username or password");
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
     }
 
-    // Handle logout
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); // Invalidate the session to log out the user
-        return "redirect:/"; // Redirect to home page after logout
+        session.invalidate(); 
+        return "redirect:/"; 
     }
 }

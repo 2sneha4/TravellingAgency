@@ -42,7 +42,7 @@ public class ProfileController {
         if (user != null) {
             user.setUsername(username);
             if (password != null && !password.isEmpty()) {
-                user.setPassword(password); // Consider hashing the password
+                user.setPassword(password); 
             }
             user.setEmail(email);
             user.setPhoneNumber(phoneNumber);

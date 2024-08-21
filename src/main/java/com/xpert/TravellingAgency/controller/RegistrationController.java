@@ -17,13 +17,11 @@ public class RegistrationController {
     @Autowired
     private UserAccountService userAccountService;
 
-    // Display the registration form
     @GetMapping("/register")
     public String showRegistrationForm() {
-        return "register"; // Return the name of the HTML file (register.html)
+        return "register"; 
     }
 
-    // Handle registration form submission
     @PostMapping("/register")
     public String register(
             @RequestParam String username,
@@ -38,12 +36,12 @@ public class RegistrationController {
         
         if (userAccountService.usernameExists(username)) {
             model.addAttribute("error", "Username already exists");
-            return "register"; // Return to the registration form with error message
+            return "register"; 
         }
         
         UserAccount newUser = new UserAccount();
         newUser.setUsername(username);
-        newUser.setPassword(password); // Consider hashing the password in production
+        newUser.setPassword(password); 
         newUser.setEmail(email);
         newUser.setPhoneNumber(phoneNumber);
         newUser.setFullName(fullName);
@@ -52,9 +50,8 @@ public class RegistrationController {
         
         userAccountService.save(newUser);
 
-        // Store user in session
         session.setAttribute("user", newUser);
         
-        return "redirect:/"; // Redirect to home page after successful registration
+        return "redirect:/"; 
     }
 }
