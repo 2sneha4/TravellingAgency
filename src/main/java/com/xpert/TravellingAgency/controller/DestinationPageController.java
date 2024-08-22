@@ -65,6 +65,7 @@ public class DestinationPageController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("cityName", cityName);
+        model.addAttribute("navigationPage", "destination");
         
 		model.addAttribute("locationListDAO", locationListDAO);
 		

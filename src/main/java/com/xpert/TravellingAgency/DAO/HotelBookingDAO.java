@@ -1,15 +1,20 @@
 package com.xpert.TravellingAgency.DAO;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.xpert.TravellingAgency.model.HotelOrder;
 
+import com.xpert.TravellingAgency.model.HotelBooking;
+import com.xpert.TravellingAgency.repository.HotelBookingRepository;
 
 @Service
 public class HotelBookingDAO {
 	
-	public void saveBookingIntoDB(HotelOrder hotelOrder) {
+	@Autowired
+	HotelBookingRepository hotelBookingRepository;
+	
+	public void saveBookingIntoDB(HotelBooking hotelBooking) {
 		
-		
+		hotelBookingRepository.save(hotelBooking);
 		
 	}
 

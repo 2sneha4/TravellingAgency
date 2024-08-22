@@ -5,7 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.persistence.Id;
 
 @Document(collection = "Bookings")
-public class HotelOrder {
+public class HotelBooking {
 
 	  
 	@Id
@@ -30,7 +30,7 @@ public class HotelOrder {
 	private double price;
 	private String currency;
 	
-	public HotelOrder() {}
+	public HotelBooking() {}
 	
 	
 	

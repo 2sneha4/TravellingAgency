@@ -18,6 +18,9 @@
 		                <span class="days" th:text="${activity.getMinimumDuration() != null && activity.getMinimumDuration() != '' ? activity.getMinimumDuration() : 'Duration Not Available'}"></span>
 		                <h3><a href="#" th:text="${activity.getName()}"></a></h3>
 		                <p class="location" th:text="${cityName + ' , ' + locationListDAO.getCountryName(locationListDAO.getCityCode(cityName))}"><span class="fa fa-map-marker"></span></p>
+						<div th:if="${activity.getBookingLink() != null && activity.getBookingLink() != ''}">
+			                <a th:href="${activity.getBookingLink()}" class="btn btn-primary mt-3" target="_blank">Read More</a>
+			            </div>
 		           </div>
 		       </div>
 		   </div>

@@ -28,6 +28,7 @@ public class HomePageController {
 		
 		model.addAttribute("locations", locations);
 		model.addAttribute("cityName", cityName);
+		model.addAttribute("navigationPage", "home");
 		
 		return "index";
 	}

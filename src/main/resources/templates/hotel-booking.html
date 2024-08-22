@@ -1,15 +1,90 @@
-<html>
-	<head>
-		
-	</head>
-	<body>
-		
-		
-		<h1> Into Hotel Booking Page
-		
-		
-		
-		
-		
-	</body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hotel Booking</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+	
+	<div th:replace="~{fragments/header :: header}"></div>
+	
+	<div class="container mt-5">
+	    <h2>Hotel Booking Form</h2>
+	    <form th:action="@{/payment}" th:object="${hotelBooking}">
+	        <!-- Hotel and Booking Details (Pre-populated) -->
+	        
+	        <div class="form-group">
+	            <label for="hotelName">Hotel Name</label>
+	            <input type="text" class="form-control" id="hotelName" th:field="*{hotelName}" th:value="${hotelName}" readonly>
+	        </div>
+	       
+	        <div class="form-group">
+	            <label for="cityName">City Name</label>
+	            <input type="text" class="form-control" id="cityName" th:field="*{cityName}" th:value="${cityName}" readonly>
+	        </div>
+	       
+	        <div class="form-group">
+	            <label for="checkInDate">Check-In Date</label>
+	            <input type="date" class="form-control" id="checkInDate" th:field="*{checkInDate}" th:value="${checkInDate}" readonly>
+	        </div>
+	        <div class="form-group">
+	            <label for="checkOutDate">Check-Out Date</label>
+	            <input type="date" class="form-control" id="checkOutDate" th:field="*{checkOutDate}" th:value="${checkOutDate}" readonly>
+	        </div>
+	        <div class="form-group">
+	            <label for="roomDescription">Room Description</label>
+	            <input type="text" class="form-control" id="roomDescription" th:field="*{roomDescription}" th:value="${roomDescription}" readonly>
+	        </div>
+	        <div class="form-group">
+	            <label for="roomCategory">Room Category</label>
+	            <input type="text" class="form-control" id="roomCategory" th:field="*{roomCategory}" th:value="${roomCategory}" readonly>
+	        </div>
+	        <div class="form-group">
+	            <label for="roomBedType">Room Bed Type</label>
+	            <input type="text" class="form-control" id="roomBedType" th:field="*{roomBedType}" th:value="${roomBedType}" readonly>
+	        </div>
+	        <div class="form-group">
+	            <label for="price">Price</label>
+	            <input type="text" class="form-control" id="price" th:field="*{price}" th:value="${price}" readonly>
+	        </div>
+	        <div class="form-group">
+	            <label for="currency">Currency</label>
+	            <input type="text" class="form-control" id="currency" th:field="*{currency}" th:value="${currency}" readonly>
+	        </div>
+
+	        <!-- Guest Details Input -->
+	        <div th:each="guest, iterStat : ${#numbers.sequence(0, guests - 1)}">
+	            <h4>Guest <span th:text="${iterStat.index + 1}"></span></h4>
+	            <div class="form-group">
+	                <label th:for="|guestTitle${iterStat.index}|">Guest Title</label>
+	                <input type="text" class="form-control" th:id="|guestTitle${iterStat.index}|" th:field="*{guest[__${iterStat.index}__].title}" placeholder="Enter Guest Title" required>
+	            </div>
+	            <div class="form-group">
+	                <label th:for="|guestFirstName${iterStat.index}|">Guest First Name</label>
+	                <input type="text" class="form-control" th:id="|guestFirstName${iterStat.index}|" th:field="*{guest[__${iterStat.index}__].firstName}" placeholder="Enter Guest First Name" required>
+	            </div>
+	            <div class="form-group">
+	                <label th:for="|guestLastName${iterStat.index}|">Guest Last Name</label>
+	                <input type="text" class="form-control" th:id="|guestLastName${iterStat.index}|" th:field="*{guest[__${iterStat.index}__].lastName}" placeholder="Enter Guest Last Name" required>
+	            </div>
+	            <div class="form-group">
+	                <label th:for="|guestEmail${iterStat.index}|">Guest Email</label>
+	                <input type="email" class="form-control" th:id="|guestEmail${iterStat.index}|" th:field="*{guest[__${iterStat.index}__].email}" placeholder="Enter Guest Email" required>
+	            </div>
+	            <div class="form-group">
+	                <label th:for="|guestPhone${iterStat.index}|">Guest Phone</label>
+	                <input type="text" class="form-control" th:id="|guestPhone${iterStat.index}|" th:field="*{guest[__${iterStat.index}__].phone}" placeholder="Enter Guest Phone" required>
+	            </div>
+	        </div>
+
+	        <button type="submit" class="btn btn-primary mt-3">Book</button>
+	    </form>
+	</div>
+
+    <script>
+        function addGuest() {
+            // Function to dynamically add a new guest form
+        }
+    </script>
+</body>
 </html>
