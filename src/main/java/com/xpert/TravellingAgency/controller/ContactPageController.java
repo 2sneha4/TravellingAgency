@@ -12,6 +12,7 @@ public class ContactPageController {
 	@GetMapping
 	public String getContact(Model model) {
 		
+		model.addAttribute("navigationPage", "contact");
 		return "contact";
 		
 	}

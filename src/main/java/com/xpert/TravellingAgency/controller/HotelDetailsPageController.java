@@ -37,6 +37,7 @@ public class HotelDetailsPageController {
 		
 		model.addAttribute("hotel", hotelOfferSearch[0]);
 		model.addAttribute("locationListDAO", locationListDAO);
+		model.addAttribute("guests", guests);
 		
 		return "hotel-details";
 		

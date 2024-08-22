@@ -5,48 +5,75 @@
     <title>Hotel Details - Travelling Agency</title>
 	<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+		
 		<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Arizonia&display=swap" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/css2?family=Arizonia&display=swap" rel="stylesheet">
 
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-		<link rel="stylesheet" href="css/animate.css">
+			<link rel="stylesheet" href="css/animate.css">
 
-		<link rel="stylesheet" href="css/owl.carousel.min.css">
-		<link rel="stylesheet" href="css/owl.theme.default.min.css">
-		<link rel="stylesheet" href="css/magnific-popup.css">
+			<link rel="stylesheet" href="css/owl.carousel.min.css">
+			<link rel="stylesheet" href="css/owl.theme.default.min.css">
+			<link rel="stylesheet" href="css/magnific-popup.css">
 
-		<link rel="stylesheet" href="css/bootstrap-datepicker.css">
-		<link rel="stylesheet" href="css/jquery.timepicker.css">
+			<link rel="stylesheet" href="css/bootstrap-datepicker.css">
+			<link rel="stylesheet" href="css/jquery.timepicker.css">
 
 
-		<link rel="stylesheet" href="css/flaticon.css">
-		<link rel="stylesheet" href="css/style.css">
+			<link rel="stylesheet" href="css/flaticon.css">
+			<link rel="stylesheet" href="css/style.css">
+
+		<style>
+			.ftco-animate{
+				visibility: visible;
+				opacity: 1;
+			}
+			
+			#ftco-nav{
+				visibility: visible;
+				opacity: 1;
+				display: block;
+			}
+		</style>
   
 </head>
 
 <body>
-
-   
-
-        
-<div>
-	<a class="img" th:style="'background-image: url(' + @{images/} + ${locationListDAO.getLocationByCity(locationListDAO.getCityName(hotel.getHotel().getCityCode())).getPicture()} + ')'"></a>
-	<h2 th:text="${hotel.getHotel().getName()}">Hotel Name</h2>
-	<p th:text="'Hotel Description : ' + ${hotel.getOffers()[0].getDescription()}"></p>
-	<ul class="list-unstyled">
-	    <!--<li><strong>Location:</strong> <span th:text="${hotel.location}">Hotel Location</span></li>-->
-	    <!--<li><strong>Rating:</strong> <span th:text="${hotel.rating}">Hotel Rating</span></li>-->
-	    <li><strong>Price per Night:</strong> <span th:text="${hotel.getOffers()[0].getPrice().getTotal()}">Hotel Price</span></li>
-	    <!--<li><strong>Amenities:</strong>
-	        <ul>
-	            <li th:each="amenity : ${hotel.amenities}" th:text="${amenity}">Amenity</li>
-	        </ul>
-	    </li>-->
-	</ul>
-	<a href="#" class="btn btn-primary">Book Now</a>
-</div>
-
+	
+	<div th:replace="~{fragments/header :: header}"></div>
+	
+	
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row">
+				
+				<div class="col-md-4 ftco-animate">
+	
+					<div class="project-wrap hotel">
+						<a class="img" th:style="'background-image: url(' + @{images/} + ${locationListDAO.getLocationByCity(locationListDAO.getCityName(hotel.getHotel().getCityCode())).getPicture()} + ')'">
+						</a>
+						<div class="text p-4">
+	
+							<h3 th:text="${hotel.getHotel().getName()}"><a></a></h3>
+							<p th:text="'Hotel Description : ' + ${hotel.getOffers()[0].getDescription()}"></p>
+							<ul class="list-unstyled">
+							    <!--<li><strong>Location:</strong> <span th:text="${hotel.location}">Hotel Location</span></li>-->
+							    <!--<li><strong>Rating:</strong> <span th:text="${hotel.rating}">Hotel Rating</span></li>-->
+							    <li><strong>Price per Night:</strong> <span th:text="${hotel.getOffers()[0].getPrice().getTotal()}">Hotel Price</span></li>
+							    <!--<li><strong>Amenities:</strong>
+							        <ul>
+							            <li th:each="amenity : ${hotel.amenities}" th:text="${amenity}">Amenity</li>
+							        </ul>
+							    </li>-->
+							</ul>
+							<a th:href="@{/hotel-booking(id=${hotel.getHotel().getHotelId()},checkindate=${hotel.getOffers()[0].getCheckInDate()},checkoutdate=${hotel.getOffers[0].getCheckOutDate()},guests=${guests},hotelName=${hotel.getHotel().getName()})}" class="btn btn-primary">Book Now</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
 </body>
 </html>

@@ -72,6 +72,7 @@ public class HotelPageController {
         model.addAttribute("rooms",rooms);
         model.addAttribute("guests",guests);
         
+        model.addAttribute("navigationPage", "hotel");
 		model.addAttribute("locationListDAO", locationListDAO);
 		
 		if(ajax)
