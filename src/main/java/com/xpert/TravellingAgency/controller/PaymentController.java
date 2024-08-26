@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import com.xpert.TravellingAgency.DAO.HotelBookingDAO;
@@ -26,11 +25,19 @@ public class PaymentController {
 		HotelBookingDAO hotelBookingDAO;
 		
 		@GetMapping
-		public String paymentPage(
-				@ModelAttribute HotelBooking hotelBooking,
+		public String paymentPage(@ModelAttribute HotelBooking hotelBooking,
 				Model model) {
 			
+			
+			hotelBooking.setBookingStatus("Booked");
+			
+			HotelBooking existingBooking = hotelBookingDAO.getHotelBookingByBookingId(hotelBooking.getBookingId());
+			
+			hotelBookingDAO.deleteExistingBooking(existingBooking.getBookingId());
+			
+			
 			hotelBookingDAO.saveBookingIntoDB(hotelBooking);
+			
 			model.addAttribute("hotelBooking", hotelBooking);
 			
 			return "payment";
@@ -42,8 +49,8 @@ public class PaymentController {
 	        String cancelUrl = "/payment/cancel";
 	        String successUrl = "/payment/success";
 	        
-	        String price = Double.toString(1);
-	        String currency = "USD";
+	        String price = Double.toString(hotelBooking.getPrice());
+	        String currency = hotelBooking.getCurrency();
 	        
 	        Payment payment = payPalService.createPayment(
 	        		price, 
@@ -56,10 +63,18 @@ public class PaymentController {
 	        
 	        System.out.println("Created Payment Response : " + payment.toJSON());
 	        
-	        for(Links link : payment.getLinks()) {
+	        if(payment.getState().equals("created")) {
 	        	
-	        	if(link.getRel().equals("approval_url"))
-	        		return "redirect:" + link.getHref();
+	        	hotelBooking.setPaymentId(payment.getId());
+	        	hotelBooking.setPaymentStatus("Paid");
+	        	
+	        	HotelBooking existingBooking = hotelBookingDAO.getHotelBookingByBookingId(hotelBooking.getBookingId());
+	        	
+	        	hotelBookingDAO.deleteExistingBooking(existingBooking.getBookingId());
+	        	
+	        	hotelBookingDAO.saveBookingIntoDB(hotelBooking);
+	        	
+	        	return "booking-confirmation";
 	        }
 	        
 	        return "redirect:/";

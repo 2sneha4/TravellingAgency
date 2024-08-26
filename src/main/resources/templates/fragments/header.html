@@ -24,15 +24,15 @@
                         <li class="nav-item" th:classappend="${navigationPage == 'login' ? 'active' : ''}" th:if="${session.user == null}">
                             <a href="login" class="nav-link">Login</a>
                         </li>
-                        <li class="nav-item dropdown" th:if="${session.user != null}">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-user"></i> <span th:text="${session.user.username}">Username</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-								<a class="dropdown-item" href="profile">Profile</a>
-                                <a class="dropdown-item" href="logout">Logout</a>
-                            </div>
-                        </li>
+						<li class="nav-item dropdown" th:if="${session.user != null}">
+						    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						        <i class="fa fa-user"></i> <span th:text="${session.user.username}">Username</span>
+						    </a>
+						    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+						        <a class="dropdown-item" href="profile">Profile</a>
+						        <a class="dropdown-item" href="logout">Logout</a>
+						    </div>
+						</li>
                     </ul>
                 </div>
             </div>

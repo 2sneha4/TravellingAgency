@@ -7,5 +7,9 @@ import com.xpert.TravellingAgency.model.HotelBooking;
 
 @Repository
 public interface HotelBookingRepository extends MongoRepository<HotelBooking, String>{
-
+	
+	HotelBooking getHotelBookingByBookingId(String bookingId);
+	
+	void deleteByBookingId(String bookingId);
+	
 }
