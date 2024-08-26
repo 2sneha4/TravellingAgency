@@ -21,8 +21,8 @@ public class PayPalService {
 	public PayPalService() {
 		
 		apiContext = new APIContext(
-				"AcToWExzIerTyjDPVl-wSQrw-8Zd48K9qhUSZxUAfU--NF0bwqmjGQKQMpKeUDS_xFN5-PMrdkzBME2F",
-				"ED5CSY2AdtdnpPLqHUnicoT-zFRmzGLT7CwSfvgoBk3zHtE_4vWUNpdc4j9-gYHrSSr-NZG3c7hOV_H3",
+				"AWPPRLL7_eBnabRFbP3pbLHbvLgCgEeB8c1d_XadgtSUWa-G1YC-sTYvzcWIL6YB17_WiB_jfRz8pfOP",
+				"EJfZBtwKDi2QazqUWeqmLDrdHksUnEyHJIgD8SV8eKX5iHhx-YXfJ0ZiNLADtonow7ZEjIkaWtQqthLH",
 				"sandbox");
 	}
 

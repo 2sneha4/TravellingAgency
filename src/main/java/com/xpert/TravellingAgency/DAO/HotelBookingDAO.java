@@ -17,5 +17,15 @@ public class HotelBookingDAO {
 		hotelBookingRepository.save(hotelBooking);
 		
 	}
+	
+	public HotelBooking getHotelBookingByBookingId(String bookingId) {
+		
+		return hotelBookingRepository.getHotelBookingByBookingId(bookingId);
+	}
+	
+	public void deleteExistingBooking(String bookingId) {
+		
+		hotelBookingRepository.deleteByBookingId(bookingId);
+	}
 
 }

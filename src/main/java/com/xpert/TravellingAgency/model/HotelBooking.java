@@ -1,17 +1,19 @@
 package com.xpert.TravellingAgency.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import jakarta.persistence.Id;
 
 @Document(collection = "Bookings")
 public class HotelBooking {
-
-	  
+	
 	@Id
-	private String bookingId; 
+	@Field("bookingId")
+	private String bookingId;
 	
 	private Guest[] guest;
+	private int noOfGuests;
 	
 	private String hotelId;
 	private String hotelName;
@@ -26,14 +28,80 @@ public class HotelBooking {
 	private String roomDescription;
 	private String roomCategory;
 	private String roomBedType;
+	private int noOfRooms;
 	
 	private double price;
 	private String currency;
+	
+	private String paymentId;
+	
+	private String bookingStatus;
+	private String paymentStatus;
 	
 	public HotelBooking() {}
 	
 	
 	
+	public int getNoOfGuests() {
+		return noOfGuests;
+	}
+
+
+
+	public void setNoOfGuests(int noOfGuests) {
+		this.noOfGuests = noOfGuests;
+	}
+
+
+
+	public int getNoOfRooms() {
+		return noOfRooms;
+	}
+
+
+
+	public void setNoOfRooms(int noOfRooms) {
+		this.noOfRooms = noOfRooms;
+	}
+
+
+
+	public String getBookingStatus() {
+		return bookingStatus;
+	}
+
+
+
+	public void setBookingStatus(String bookingStatus) {
+		this.bookingStatus = bookingStatus;
+	}
+
+
+
+	public String getPaymentStatus() {
+		return paymentStatus;
+	}
+
+
+
+	public void setPaymentStatus(String paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
+
+
+
+	public String getPaymentId() {
+		return paymentId;
+	}
+
+
+
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
+
+
+
 	public String getBookingId() {
 		return bookingId;
 	}
