@@ -29,6 +29,7 @@ public class HotelBookingPageController {
 		hotelBookingDAO.saveBookingIntoDB(hotelBooking);
 		
 		model.addAttribute("hotelBooking", hotelBooking);
+		model.addAttribute("navigationPage", "hotel");
 		
 		return "hotel-booking";
 	}

@@ -11,7 +11,7 @@
 		<div class="row">
 			<div class="col-md-4 ftco-animate" th:each="hotel:${hotels}">
 		
-				<div class="project-wrap hotel individual-hotel" th:data-hotel-id="${hotel.getHotelId()}">
+				<div class="project-wrap hotel individual-hotel" th:data-hotel-id="${hotel.getHotelId()}" style="cursor: pointer;">
 					<a class="img" th:style="'background-image: url(' + @{images/} + ${locationListDAO.getLocationByCity(locationListDAO.getCityName(hotel.getIataCode())).getPicture()} + ')'">
 					</a>
 					<div class="text p-4">

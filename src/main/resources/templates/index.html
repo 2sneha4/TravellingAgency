@@ -72,7 +72,7 @@
 															<div class="select-wrap">
 	                                                        	<div class="icon"><span class="fa fa-chevron-down"></span></div>
 																<select th:name="city" id="select-city-for-destination" class="form-control">
-																	<option value="" selected th:text="${cityName}"></option>
+																	<option th:value="${cityName}" selected th:text="${cityName}"></option>
 																	<!-- Dropdown items will be inserted here -->
 																</select>
 																</div>
@@ -616,7 +616,10 @@
 			
 			<script>
 				
-				$('#select-city-for-destination').on('click', function () {
+				$('#select-city-for-destination').on('click', function (event) {
+					
+					event.preventDefault();
+					
 					$.ajax({
 						url: '/cities',
 						method: 'GET',
@@ -635,23 +638,37 @@
 					});
 				});
 				
-				$('#select-city-for-hotel').on('click', function () {
-					$.ajax({
-						url: '/cities',
-						method: 'GET',
-						success: function (cities) {
-							var dropdown = $('#select-city-for-hotel');
-							dropdown.empty();
-							if (cities.length > 0) {
-								cities.forEach(function (city) {
-									dropdown.append('<option value="' + city + '">' + city + '</option>');
-								});
-								dropdown.show();
-							} else {
-								dropdown.hide();
-							}
-						}
-					});
+				$('#select-city-for-hotel').on('click', function (event) {
+				    event.preventDefault();
+
+				    var currentCity = $(this).val(); // Preserve the currently selected city
+
+				    $.ajax({
+				        url: '/cities',
+				        method: 'GET',
+				        success: function (cities) {
+				            var dropdown = $('#select-city-for-hotel');
+				            dropdown.empty(); // Clear existing options
+
+				            if (cities.length > 0) {
+				                cities.forEach(function (city) {
+				                    var option = $('<option>').val(city).text(city);
+				                    dropdown.append(option);
+
+				                    // Re-select the previously selected city if it matches
+				                    if (city === currentCity) {
+				                        option.prop('selected', true);
+				                    }
+				                });
+				                dropdown.show();
+				            } else {
+				                dropdown.hide();
+				            }
+				        },
+				        error: function (xhr, status, error) {
+				            console.error('Error occurred while fetching cities:', status, error);
+				        }
+				    });
 				});
 
 			</script>
