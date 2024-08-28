@@ -39,7 +39,7 @@
 </div>
 </section>
 
-<section class="ftco-section ftco-no-pb">
+<section class="ftco-section ftco-no-pb" id="destination-section">
    <div class="container">
       <div class="row">
        <div class="col-md-12">
@@ -99,39 +99,39 @@
    	</div>
    </div>
    <!-- Pagination -->
-	<div class="row mt-5">
-		<div class="col text-center">
-			<div class="block-27">
-				<ul>
-					<!-- Previous Set of Page Links -->
-					<li th:if="${currentPage > 4}">
-						<a th:href="@{/destination(page=${currentPage - 5}, size=20, city=${cityName})}">&lt;&lt;</a>
-					</li>
+   <div class="row mt-5">
+   	<div class="col text-center">
+   		<div class="block-27">
+   			<ul>
+   				<!-- Previous Set of Page Links -->
+   				<li th:if="${currentPage > 4}">
+   					<a th:href="@{/destination(page=${currentPage - 5}, size=20, city=${cityName})} + '#destination-section'">&lt;&lt;</a>
+   				</li>
 
-					<!-- Previous Page Link -->
-					<li th:if="${currentPage > 0}">
-						<a th:href="@{/destination(page=${currentPage - 1}, size=20, city=${cityName})}">&lt;</a>
-					</li>
+   				<!-- Previous Page Link -->
+   				<li th:if="${currentPage > 0}">
+   					<a th:href="@{/destination(page=${currentPage - 1}, size=20, city=${cityName})} + '#destination-section'">&lt;</a>
+   				</li>
 
-					<!-- Page Number Links -->
-					<li th:each="i : ${#numbers.sequence(startPage, endPage)}"
-						th:classappend="${i == currentPage} ? 'active' : ''">
-						<a th:href="@{/destination(page=${i}, size=20, city=${cityName})}" th:text="${i + 1}"></a>
-					</li>
+   				<!-- Page Number Links -->
+   				<li th:each="i : ${#numbers.sequence(startPage, endPage)}"
+   					th:classappend="${i == currentPage} ? 'active' : ''">
+   					<a th:href="@{/destination(page=${i}, size=20, city=${cityName})} + '#destination-section'" th:text="${i + 1}"></a>
+   				</li>
 
-					<!-- Next Page Link -->
-					<li th:if="${currentPage < totalPages - 1}">
-						<a th:href="@{/destination(page=${currentPage + 1}, size=20, city=${cityName})}">&gt;</a>
-					</li>
+   				<!-- Next Page Link -->
+   				<li th:if="${currentPage < totalPages - 1}">
+   					<a th:href="@{/destination(page=${currentPage + 1}, size=20, city=${cityName})} + '#destination-section'">&gt;</a>
+   				</li>
 
-					<!-- Next Set of Page Links -->
-					<li th:if="${currentPage + 5 < totalPages}">
-						<a th:href="@{/destination(page=${currentPage + 5}, size=20, city=${cityName})}">&gt;&gt;</a>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+   				<!-- Next Set of Page Links -->
+   				<li th:if="${currentPage + 5 < totalPages}">
+   					<a th:href="@{/destination(page=${currentPage + 5}, size=20, city=${cityName})} + '#destination-section'">&gt;&gt;</a>
+   				</li>
+   			</ul>
+   		</div>
+   	</div>
+   </div>
 </section>
 
 
@@ -285,6 +285,13 @@
 		});
 	});
 	
+</script>
+
+<!-- Scroll to destination-section on page load -->
+<script>
+    window.onload = function() {
+        document.getElementById('destination-section').scrollIntoView({ behavior: 'smooth' });
+    };
 </script>
 
 </body>

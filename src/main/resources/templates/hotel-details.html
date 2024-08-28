@@ -49,17 +49,20 @@
 					            <a href="/">Home <i class="fa fa-chevron-right"></i></a>
 					        </span>
 					        <span class="mr-2">
-					            <a href="hotel">Hotel <i class="fa fa-chevron-right"></i></a>
+					            <a th:href="@{/hotel(city=${hotelBooking.getCityName()},checkindate=${hotelBooking.getCheckInDate()},checkoutdate=${hotelBooking.getCheckOutDate()},rooms=${hotelBooking.getNoOfRooms()},guests=${hotelBooking.getNoOfGuests()})}">
+									
+									Hotel <i class="fa fa-chevron-right"></i>
+								</a>
 					        </span>
 					        <span>Hotel Details <i class="fa fa-chevron-right"></i></span>
 					    </p>
-					    <h1 class="mb-0 bread">Hotel</h1>
+					    <h1 class="mb-0 bread">Hotel Details</h1>
 					</div>
 				</div>
 			</div>
 		</section>
 	
-	<section class="ftco-section">
+	<section class="ftco-section" id="hotel-details-section">
 	<div class="container">
 	    <div class="row">
 	        <!-- Form moved outside the loop -->
@@ -170,6 +173,13 @@
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 		<script src="js/google-map.js"></script>
 		<script src="js/main.js"></script>
+		
+		<!-- Scroll to destination-section on page load -->
+		<script>
+		    window.onload = function() {
+		        document.getElementById('hotel-details-section').scrollIntoView({ behavior: 'smooth' });
+		    };
+		</script>
 	
 </body>
 </html>

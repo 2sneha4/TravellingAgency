@@ -43,7 +43,7 @@
 		</div>
 	</section>
 
-	<section class="ftco-section ftco-no-pb">
+	<section class="ftco-section ftco-no-pb" id="hotel-section">
 			<div class="container">
 				<div class="row">
 					<div class="col-md-12">
@@ -59,7 +59,7 @@
 												<div class="select-wrap">
 													<div class="icon"><span class="fa fa-chevron-down"></span></div>
 													<select name="select-city" id="select-city" class="form-control">
-														<option value="" disabled selected th:text="${cityName}"></option>
+														<option th:value="${cityName}" disabled selected th:text="${cityName}"></option>
 														<!-- Dropdown items will be inserted here -->
 													</select>
 												</div>
@@ -148,7 +148,7 @@
 				
 				<div class="col-md-4 ftco-animate" th:each="hotel:${hotels}">
 
-					<div class="project-wrap hotel individual-hotel" th:data-hotel-id="${hotel.getHotelId()}">
+					<div class="project-wrap hotel individual-hotel" th:data-hotel-id="${hotel.getHotelId()}" style="cursor: pointer;">
 						<a class="img" th:style="'background-image: url(' + @{images/} + ${locationListDAO.getLocationByCity(locationListDAO.getCityName(hotel.getIataCode())).getPicture()} + ')'">
 						</a>
 						<div class="text p-4">
@@ -169,28 +169,28 @@
 						<ul>
 							<!-- Previous Set of Page Links -->
 							<li th:if="${currentPage > 4}">
-								<a th:href="@{/hotel(page=${currentPage - 5}, size=20, city=${cityName})}">&lt;&lt;</a>
+								<a th:href="@{/hotel(page=${currentPage - 5}, size=20, city=${cityName})} + '#hotel-section'">&lt;&lt;</a>
 							</li>
 
 							<!-- Previous Page Link -->
 							<li th:if="${currentPage > 0}">
-								<a th:href="@{/hotel(page=${currentPage - 1}, size=20, city=${cityName})}">&lt;</a>
+								<a th:href="@{/hotel(page=${currentPage - 1}, size=20, city=${cityName})} + '#hotel-section'">&lt;</a>
 							</li>
 
 							<!-- Page Number Links -->
 							<li th:each="i : ${#numbers.sequence(startPage, endPage)}"
 								th:classappend="${i == currentPage} ? 'active' : ''">
-								<a th:href="@{/hotel(page=${i}, size=20, city=${cityName})}" th:text="${i + 1}"></a>
+								<a th:href="@{/hotel(page=${i}, size=20, city=${cityName})} + '#hotel-section'" th:text="${i + 1}"></a>
 							</li>
 
 							<!-- Next Page Link -->
 							<li th:if="${currentPage < totalPages - 1}">
-								<a th:href="@{/hotel(page=${currentPage + 1}, size=20, city=${cityName})}">&gt;</a>
+								<a th:href="@{/hotel(page=${currentPage + 1}, size=20, city=${cityName})} + '#hotel-section'">&gt;</a>
 							</li>
 
 							<!-- Next Set of Page Links -->
 							<li th:if="${currentPage + 5 < totalPages}">
-								<a th:href="@{/hotel(page=${currentPage + 5}, size=20, city=${cityName})}">&gt;&gt;</a>
+								<a th:href="@{/hotel(page=${currentPage + 5}, size=20, city=${cityName})} + '#hotel-section'">&gt;&gt;</a>
 							</li>
 						</ul>
 					</div>
@@ -323,75 +323,130 @@
 	    var checkOutDate = $('#check-out-date').val();
 	    var rooms = $('#no-of-rooms').val();
 	    var guests = $('#no-of-guests').val();
+		var city = $('#select-city').val();
 
 	    // Redirect to the new page (hotel-details.html) with parameters in the URL
-	    var url = `/hotel-details?id=${hotelId}&checkindate=${checkInDate}&checkoutdate=${checkOutDate}&rooms=${rooms}&guests=${guests}`;
+	    var url = `/hotel-details?id=${hotelId}&cityName=${city}&checkindate=${checkInDate}&checkoutdate=${checkOutDate}&rooms=${rooms}&guests=${guests}`;
 	    window.location.href = url;
 	});
    
 </script>
 
 <script>
-	
-	$('#select-city').on('click', function (event) {
-		event.preventDefault();
-		$.ajax({
-			url: '/hotel/cities',
-			method: 'GET',
-			success: function (cities) {
-				var dropdown = $('#select-city');
-				dropdown.empty();
-				if (cities.length > 0) {
-					cities.forEach(function (city) {
-						dropdown.append('<option value="' + city + '">' + city + '</option>');
-					});
-					dropdown.show();
-				} else {
-					dropdown.hide();
-				}
-			}
-		});
-	});
+    $('#select-city').on('click', function (event) {
+        event.preventDefault();
 
-</script>
+        var currentCity = $(this).val(); // Preserve the current selected city
 
-<script>
-	
-	$('#search-button').on('click', function (event) {
-		event.preventDefault(); // Prevent the default form submission
-	
-		var cityName = $('#select-city').val();
-		var checkInDate = $('#check-in-date').val();
-		var checkOutDate = $('#check-out-date').val();
-		var rooms = $('#no-of-rooms').val();
-		var guests = $('#no-of-guests').val();
-		$.ajax({
-			url: '/hotel',
-			method: 'GET',
-			data: {
-				city: cityName,
-				checkindate: checkInDate,
-				checkoutdate: checkOutDate,
-				rooms:rooms,
-				guests:guests,
-				ajax: true
-			},
-			success: function (data) {
-				console.log(data)
-	
-				$("#showHotels").replaceWith(data);
-				$("#showHotels").find('.ftco-animate').css({
-				               'visibility': 'visible',
-				               'opacity': '1'
-				           });
-			},
+        $.ajax({
+            url: '/hotel/cities',
+            method: 'GET',
+            success: function (cities) {
+                var dropdown = $('#select-city');
+                dropdown.empty(); // Clear existing options
+
+                if (cities.length > 0) {
+                    cities.forEach(function (city) {
+                        var option = $('<option>').val(city).text(city);
+                        dropdown.append(option);
+
+                        // Re-select the previously selected city
+                        if (city === currentCity) {
+                            option.prop('selected', true);
+                        }
+                    });
+                    dropdown.show();
+                } else {
+                    dropdown.hide();
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error('Error occurred while fetching cities:', status, error);
+            }
+        });
+    });
+
+    $('#search-button').on('click', function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var cityName = $('#select-city').val();
+        var checkInDate = $('#check-in-date').val();
+        var checkOutDate = $('#check-out-date').val();
+        var rooms = $('#no-of-rooms').val();
+        var guests = $('#no-of-guests').val();
+
+        $.ajax({
+            url: '/hotel',
+            method: 'GET',
+            data: {
+                city: cityName,
+                checkindate: checkInDate,
+                checkoutdate: checkOutDate,
+                rooms: rooms,
+                guests: guests,
+                ajax: true
+            },
+            success: function (data) {
+                console.log(data);
+
+                $("#showHotels").replaceWith(data);
+                $("#showHotels").find('.ftco-animate').css({
+                    'visibility': 'visible',
+                    'opacity': '1'
+                });
+            },
             error: function (xhr, status, error) {
                 console.error('Error occurred:', status, error);
             }
-	
-		});
-	});	
+        });
+    });
+</script>
+
+<!-- Scroll to hotel-section on page load -->
+<script>
+    window.onload = function() {
+        document.getElementById('hotel-section').scrollIntoView({ behavior: 'smooth' });
+    };
+</script>
+
+<!-- Example using SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div th:if="${error}" th:text="${error}" id="errorMessage" style="display: none;"></div>
+
+<div th:text="${errorCityName}" id="cityName" style="display: none;"></div>
+<div th:text="${errorCheckInDate}" id="checkInDate" style="display: none;"></div>
+<div th:text="${errorCheckOutDate}" id="checkOutDate" style="display: none;"></div>
+<div th:text="${errorRooms}" id="rooms" style="display: none;"></div>
+<div th:text="${errorGuests}" id="guests" style="display: none;"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
 		
+        var errorMessage = document.getElementById("errorMessage").innerText;
+		
+		var cityName = document.getElementById("cityName").innerText;
+		var checkInDate = document.getElementById("checkInDate").innerText;
+		var checkOutDate = document.getElementById("checkOutDate").innerText;
+		var rooms = document.getElementById("rooms").innerText;
+		var guests = document.getElementById("guests").innerText;
+		
+        if (errorMessage) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: errorMessage
+            });
+			
+			document.getElementById("select-city").value = cityName;
+			document.getElementById("check-in-date").value = checkInDate;
+			document.getElementById("check-out-date").value = checkOutDate;
+			document.getElementById("no-of-rooms").value = rooms;
+			document.getElementById("no-of-guests").value = guests;
+			
+			document.getElementById("search-button").click();
+        }
+    });
 </script>
 
 </body>

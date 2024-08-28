@@ -4,6 +4,6 @@ import com.amadeus.resources.HotelOfferSearch;
 
 public interface HotelOffers {
 
-	HotelOfferSearch[] getHotelOffers(String hotelId, String checkInDate, String checkOutDate, int rooms, int guests);
+	HotelOfferSearch[] getHotelOffers(String hotelId, String checkInDate, String checkOutDate, int rooms, int guests, String cityName);
 
 }

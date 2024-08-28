@@ -34,13 +34,14 @@ public class HotelDetailsPageController {
 	@GetMapping
 	public String getHotelDetails(
 			@RequestParam("id") String hotelId,
+			@RequestParam(name = "cityName", required = false) String cityName,
 			@RequestParam(name = "checkindate", required = false) String checkInDate,
 	        @RequestParam(name = "checkoutdate", required = false) String checkOutDate,
 	        @RequestParam(name = "rooms", defaultValue = "1") int rooms,
 	        @RequestParam(name = "guests", defaultValue = "1") int guests,
 			Model model) {
-				
-		HotelOfferSearch[] hotelOfferSearch = hotelOffers.getHotelOffers(hotelId, checkInDate, checkOutDate, rooms, guests);
+						
+		HotelOfferSearch[] hotelOfferSearch = hotelOffers.getHotelOffers(hotelId, checkInDate, checkOutDate, rooms, guests, cityName);
 				
 		HotelBooking hotelBooking = new HotelBooking();
 		
@@ -52,29 +53,16 @@ public class HotelDetailsPageController {
 		
 		hotelBooking.setHotelId(hotelId);
 		hotelBooking.setHotelName(hotelOfferSearch[0].getHotel().getName());
-		
-//		hotelBooking.setCheckInDate(checkInDate);
-//		hotelBooking.setCheckOutDate(checkOutDate);
-		
-		
+	
 		hotelBooking.setCityName(locationListDAO.getCityName(hotelOfferSearch[0].getHotel().getCityCode()));
 		hotelBooking.setCityCode(hotelOfferSearch[0].getHotel().getCityCode());
 		
-//		hotelBooking.setOfferId(hotelOfferSearch[0].getOffers()[0].getId());
-//		hotelBooking.setRoomDescription(hotelOfferSearch[0].getOffers()[0].getRoom().getDescription().getText());
-//		hotelBooking.setRoomCategory(hotelOfferSearch[0].getOffers()[0].getRoom().getTypeEstimated().getCategory());
-//		hotelBooking.setRoomBedType(hotelOfferSearch[0].getOffers()[0].getRoom().getTypeEstimated().getBedType());
-//		hotelBooking.setPrice(Double.parseDouble(hotelOfferSearch[0].getOffers()[0].getPrice().getTotal()));
-//		hotelBooking.setCurrency(hotelOfferSearch[0].getOffers()[0].getPrice().getCurrency());
-		
 		hotelBooking.setNoOfGuests(guests);
 		hotelBooking.setNoOfRooms(rooms);
-//		
+		
 		hotelBooking.setBookingStatus("Not Booked");
 		hotelBooking.setPaymentStatus("Not Paid");
-		
-//		hotelBookingDAO.saveBookingIntoDB(hotelBooking);
-		
+				
 		model.addAttribute("locationListDAO", locationListDAO);
 		model.addAttribute("hotelBooking", hotelBooking);
 		model.addAttribute("navigationPage", "hotel");
