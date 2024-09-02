@@ -82,16 +82,16 @@
     <div class="row">
        <div class="col-md-4 ftco-animate" th:each="activity:${activities}">
           <div class="project-wrap">
-			<a href="#" class="img" th:style="'background-image: url(' + ${activity.getPictures() != null && activity.getPictures().length > 0 ? activity.getPictures()[0] : '/images/default-image.jpg'} + ');'">              
+			<a th:href="@{https://www.google.com/maps/?q={lat},{lng}(lat=${activity.geoCode.latitude},lng=${activity.geoCode.longitude})}" target="_blank" class="img" th:style="'background-image: url(' + ${activity.getPictures() != null && activity.getPictures().length > 0 ? activity.getPictures()[0] : '/images/default-image.jpg'} + ');'">              
 			<span class="price" th:text="${activity.getPrice() != null && activity.getPrice().getAmount() != null && activity.getPrice().getCurrencyCode() != null ? (activity.getPrice().getCurrencyCode() + ' ' + activity.getPrice().getAmount()) : 'Price Not Available'}"></span>
         </a>
             <div class="text p-4">
                 <span class="days" th:text="${activity.getMinimumDuration() != null && activity.getMinimumDuration() != '' ? activity.getMinimumDuration() : 'Duration Not Available'}"></span>
-                <h3><a href="#" th:text="${activity.getName()}"></a></h3>
+                <h3><a th:href="@{https://www.google.com/maps/?q={lat},{lng}(lat=${activity.geoCode.latitude},lng=${activity.geoCode.longitude})}" target="_blank" th:text="${activity.getName()}"></a></h3>
                 <p class="location" th:text="${cityName + ' , ' + locationListDAO.getCountryName(locationListDAO.getCityCode(cityName))}"><span class="fa fa-map-marker"></span></p>
 				<!-- Conditionally display the "Read More" button -->
 	            <div th:if="${activity.getBookingLink() != null && activity.getBookingLink() != ''}">
-	                <a th:href="${activity.getBookingLink()}" class="btn btn-primary mt-3" target="_blank">Read More</a>
+	                <a th:href="${activity.getBookingLink()}" class="btn btn-primary mt-3" target="_blank">Book Now</a>
 	            </div>
            	</div>
 			

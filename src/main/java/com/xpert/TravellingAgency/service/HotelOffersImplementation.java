@@ -19,7 +19,7 @@ private Amadeus amadeus;
 	
 	public HotelOffersImplementation() {
 		
-		amadeus = Amadeus.builder("77LONFz3hRcuNpfja0mAkwVm939AFLye","hXNUPNUAQAcepciP").build();
+		amadeus = Amadeus.builder("lACw4cJMQgPFzKeGHEAzBsXhhhVtCrhK","otSTb0SxY1Y1JWnF").build();
 	}
 	
 	@Override
