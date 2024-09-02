@@ -45,7 +45,7 @@ public class PaymentController {
 		}
 
 	    @GetMapping("/pay")
-	    public String pay(@ModelAttribute HotelBooking hotelBooking) throws PayPalRESTException {
+	    public String pay(@ModelAttribute HotelBooking hotelBooking, Model model) throws PayPalRESTException {
 	        String cancelUrl = "/payment/cancel";
 	        String successUrl = "/payment/success";
 	        
@@ -73,6 +73,8 @@ public class PaymentController {
 	        	hotelBookingDAO.deleteExistingBooking(existingBooking.getBookingId());
 	        	
 	        	hotelBookingDAO.saveBookingIntoDB(hotelBooking);
+	        	
+	        	model.addAttribute("hotelBooking", hotelBooking);
 	        	
 	        	return "booking-confirmation";
 	        }
