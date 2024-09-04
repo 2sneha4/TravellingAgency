@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
     		Model model) {
     	
     	model.addAttribute("error", ex.getMessage());
-        model.addAttribute("errorCityName", ex.getCityName());
+        model.addAttribute("cityName", ex.getCityName());
         model.addAttribute("errorCheckInDate", ex.getCheckInDate());
         model.addAttribute("errorCheckOutDate", ex.getCheckOutDate());
         model.addAttribute("errorRooms", ex.getRooms());
@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     		Model model) {
     	
     	model.addAttribute("error", ex.getMessage());
-        model.addAttribute("errorCityName", ex.getCityName());
+        model.addAttribute("cityName", ex.getCityName());
         model.addAttribute("errorCheckInDate", ex.getCheckInDate());
         model.addAttribute("errorCheckOutDate", ex.getCheckOutDate());
         model.addAttribute("errorRooms", ex.getRooms());
@@ -40,7 +40,7 @@ public class GlobalExceptionHandler {
     		Model model) {
     	
     	model.addAttribute("error", ex.getMessage());
-        model.addAttribute("errorCityName", ex.getCityName());
+        model.addAttribute("cityName", ex.getCityName());
         model.addAttribute("errorCheckInDate", ex.getCheckInDate());
         model.addAttribute("errorCheckOutDate", ex.getCheckOutDate());
         model.addAttribute("errorRooms", ex.getRooms());
