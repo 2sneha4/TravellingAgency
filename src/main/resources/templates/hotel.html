@@ -51,7 +51,7 @@
 		
 							<form class="search-property-1">
 								<div class="row no-gutters">
-		
+									<!--<input type="text" th:text="${cityName}">-->
 									<div class="col-lg d-flex">
 										<div class="form-group p-4">
 											<label for="select-city">Destination</label>
@@ -333,38 +333,39 @@
 </script>
 
 <script>
-    $('#select-city').on('click', function (event) {
-        event.preventDefault();
+	$('#select-city').on('click', function (event) {
+	    event.preventDefault();
 
-        var currentCity = $(this).val(); // Preserve the current selected city
+	    var currentCity = $(this).val(); // Preserve the current selected city
 
-        $.ajax({
-            url: '/hotel/cities',
-            method: 'GET',
-            success: function (cities) {
-                var dropdown = $('#select-city');
-                dropdown.empty(); // Clear existing options
+	    $.ajax({
+	        url: '/hotel/cities',
+	        method: 'GET',
+	        success: function (cities) {
+	            var dropdown = $('#select-city');
+	            dropdown.empty(); // Clear existing options
 
-                if (cities.length > 0) {
-                    cities.forEach(function (city) {
-                        var option = $('<option>').val(city).text(city);
-                        dropdown.append(option);
+	            if (cities.length > 0) {
+	                cities.forEach(function (city) {
+	                    var option = $('<option>').val(city).text(city);
+	                    dropdown.append(option);
+	                });
 
-                        // Re-select the previously selected city
-                        if (city === currentCity) {
-                            option.prop('selected', true);
-                        }
-                    });
-                    dropdown.show();
-                } else {
-                    dropdown.hide();
-                }
-            },
-            error: function (xhr, status, error) {
-                console.error('Error occurred while fetching cities:', status, error);
-            }
-        });
-    });
+	                // Re-select the previously selected city after options are added
+	                if (currentCity) {
+	                    dropdown.val(currentCity);
+	                }
+
+	                dropdown.show();
+	            } else {
+	                dropdown.hide();
+	            }
+	        },
+	        error: function (xhr, status, error) {
+	            console.error('Error occurred while fetching cities:', status, error);
+	        }
+	    });
+	});
 
     $('#search-button').on('click', function (event) {
         event.preventDefault(); // Prevent the default form submission
@@ -414,39 +415,41 @@
 
 <div th:if="${error}" th:text="${error}" id="errorMessage" style="display: none;"></div>
 
-<div th:text="${errorCityName}" id="cityName" style="display: none;"></div>
+<div th:text="${cityName}" id="cityName" style="display: none;"></div>
 <div th:text="${errorCheckInDate}" id="checkInDate" style="display: none;"></div>
 <div th:text="${errorCheckOutDate}" id="checkOutDate" style="display: none;"></div>
 <div th:text="${errorRooms}" id="rooms" style="display: none;"></div>
 <div th:text="${errorGuests}" id="guests" style="display: none;"></div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+	document.addEventListener("DOMContentLoaded", function(event) {
 		
-        var errorMessage = document.getElementById("errorMessage").innerText;
-		
-		var cityName = document.getElementById("cityName").innerText;
-		var checkInDate = document.getElementById("checkInDate").innerText;
-		var checkOutDate = document.getElementById("checkOutDate").innerText;
-		var rooms = document.getElementById("rooms").innerText;
-		var guests = document.getElementById("guests").innerText;
-		
-        if (errorMessage) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: errorMessage
-            });
-			
-			document.getElementById("select-city").value = cityName;
-			document.getElementById("check-in-date").value = checkInDate;
-			document.getElementById("check-out-date").value = checkOutDate;
-			document.getElementById("no-of-rooms").value = rooms;
-			document.getElementById("no-of-guests").value = guests;
-			
-			document.getElementById("search-button").click();
-        }
-    });
+	    var errorMessage = document.getElementById("errorMessage").innerText;
+	    
+	    var cityName = document.getElementById("cityName").innerText;
+	    var checkInDate = document.getElementById("checkInDate").innerText;
+	    var checkOutDate = document.getElementById("checkOutDate").innerText;
+	    var rooms = document.getElementById("rooms").innerText;
+	    var guests = document.getElementById("guests").innerText;
+	    
+	    if (errorMessage) {
+	        Swal.fire({
+	            icon: 'error',
+	            title: 'Oops...',
+	            text: errorMessage
+	        });
+
+			$('#select-city').click();
+            $('#select-city').value = cityName; // Set the city value after dropdown is populated
+			alert(document.getElementById("select-city").value);
+            document.getElementById("check-in-date").value = checkInDate;
+            document.getElementById("check-out-date").value = checkOutDate;
+            document.getElementById("no-of-rooms").value = rooms;
+            document.getElementById("no-of-guests").value = guests;
+
+            document.getElementById("search-button").click();
+	    }
+	});
 </script>
 
 </body>
