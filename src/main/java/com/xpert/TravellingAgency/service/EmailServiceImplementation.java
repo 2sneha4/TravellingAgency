@@ -35,7 +35,7 @@ public class EmailServiceImplementation implements EmailService{
 	        Context context = new Context();
 	        context.setVariable("booking", hotelBooking);
 	
-	        String body = templateEngine.process("booking-confirmation", context);
+	        String body = templateEngine.process("email", context);
 	        
 	        // Generate PDF attachment
 			ByteArrayResource pdfResource = createPdf(hotelBooking);

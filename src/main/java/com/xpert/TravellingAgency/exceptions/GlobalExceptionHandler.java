@@ -12,13 +12,12 @@ public class GlobalExceptionHandler {
     		Model model) {
     	
     	model.addAttribute("error", ex.getMessage());
-        model.addAttribute("cityName", ex.getCityName());
-        model.addAttribute("errorCheckInDate", ex.getCheckInDate());
-        model.addAttribute("errorCheckOutDate", ex.getCheckOutDate());
-        model.addAttribute("errorRooms", ex.getRooms());
-        model.addAttribute("errorGuests", ex.getGuests());
         
-    	return "forward:/hotel"; // Forward to the current view
+		 return "forward:/hotel?city=" + ex.getCityName() +
+		           "&checkindate=" + ex.getCheckInDate() +
+		           "&checkoutdate=" + ex.getCheckOutDate() +
+		           "&rooms=" + ex.getRooms() +
+		           "&guests=" + ex.getGuests();
     }
 
     @ExceptionHandler(AmadeusInternalServerErrorException.class)
@@ -26,13 +25,12 @@ public class GlobalExceptionHandler {
     		Model model) {
     	
     	model.addAttribute("error", ex.getMessage());
-        model.addAttribute("cityName", ex.getCityName());
-        model.addAttribute("errorCheckInDate", ex.getCheckInDate());
-        model.addAttribute("errorCheckOutDate", ex.getCheckOutDate());
-        model.addAttribute("errorRooms", ex.getRooms());
-        model.addAttribute("errorGuests", ex.getGuests());
         
-        return "forward:/hotel"; // Forward to the current view
+		 return "forward:/hotel?city=" + ex.getCityName() +
+		           "&checkindate=" + ex.getCheckInDate() +
+		           "&checkoutdate=" + ex.getCheckOutDate() +
+		           "&rooms=" + ex.getRooms() +
+		           "&guests=" + ex.getGuests();
     }
     
     @ExceptionHandler(AmadeusGeneralException.class)
@@ -40,12 +38,11 @@ public class GlobalExceptionHandler {
     		Model model) {
     	
     	model.addAttribute("error", ex.getMessage());
-        model.addAttribute("cityName", ex.getCityName());
-        model.addAttribute("errorCheckInDate", ex.getCheckInDate());
-        model.addAttribute("errorCheckOutDate", ex.getCheckOutDate());
-        model.addAttribute("errorRooms", ex.getRooms());
-        model.addAttribute("errorGuests", ex.getGuests());
-        
-        return "forward:/hotel"; // Forward to the current view
+    
+		 return "forward:/hotel?city=" + ex.getCityName() +
+		           "&checkindate=" + ex.getCheckInDate() +
+		           "&checkoutdate=" + ex.getCheckOutDate() +
+		           "&rooms=" + ex.getRooms() +
+		           "&guests=" + ex.getGuests();
     }
 }
