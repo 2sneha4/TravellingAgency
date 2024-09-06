@@ -51,7 +51,6 @@
 		
 							<form class="search-property-1">
 								<div class="row no-gutters">
-									<!--<input type="text" th:text="${cityName}">-->
 									<div class="col-lg d-flex">
 										<div class="form-group p-4">
 											<label for="select-city">Destination</label>
@@ -59,7 +58,7 @@
 												<div class="select-wrap">
 													<div class="icon"><span class="fa fa-chevron-down"></span></div>
 													<select name="select-city" id="select-city" class="form-control">
-														<option th:value="${cityName}" disabled selected th:text="${cityName}"></option>
+														<option th:value="${cityName}" selected th:text="${cityName}"></option>
 														<!-- Dropdown items will be inserted here -->
 													</select>
 												</div>
@@ -352,7 +351,7 @@
 	                });
 
 	                // Re-select the previously selected city after options are added
-	                if (currentCity) {
+	               if (currentCity) {
 	                    dropdown.val(currentCity);
 	                }
 
@@ -415,22 +414,10 @@
 
 <div th:if="${error}" th:text="${error}" id="errorMessage" style="display: none;"></div>
 
-<div th:text="${cityName}" id="cityName" style="display: none;"></div>
-<div th:text="${errorCheckInDate}" id="checkInDate" style="display: none;"></div>
-<div th:text="${errorCheckOutDate}" id="checkOutDate" style="display: none;"></div>
-<div th:text="${errorRooms}" id="rooms" style="display: none;"></div>
-<div th:text="${errorGuests}" id="guests" style="display: none;"></div>
-
 <script>
 	document.addEventListener("DOMContentLoaded", function(event) {
 		
 	    var errorMessage = document.getElementById("errorMessage").innerText;
-	    
-	    var cityName = document.getElementById("cityName").innerText;
-	    var checkInDate = document.getElementById("checkInDate").innerText;
-	    var checkOutDate = document.getElementById("checkOutDate").innerText;
-	    var rooms = document.getElementById("rooms").innerText;
-	    var guests = document.getElementById("guests").innerText;
 	    
 	    if (errorMessage) {
 	        Swal.fire({
@@ -438,16 +425,15 @@
 	            title: 'Oops...',
 	            text: errorMessage
 	        });
+			// Fetch the form fields for check-in and check-out dates
+		    var checkInDateField = document.querySelector("#check-in-date");
+		    var checkOutDateField = document.querySelector("#check-out-date");
 
-			$('#select-city').click();
-            $('#select-city').value = cityName; // Set the city value after dropdown is populated
-			alert(document.getElementById("select-city").value);
-            document.getElementById("check-in-date").value = checkInDate;
-            document.getElementById("check-out-date").value = checkOutDate;
-            document.getElementById("no-of-rooms").value = rooms;
-            document.getElementById("no-of-guests").value = guests;
+		    // Set them to a single value (latest) if they contain multiple values
+		    
+	        checkInDateField.value = '';
 
-            document.getElementById("search-button").click();
+	        checkOutDateField.value = '';
 	    }
 	});
 </script>

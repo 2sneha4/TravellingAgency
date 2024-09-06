@@ -45,6 +45,9 @@ private Amadeus amadeus;
 		
 				checkIn = LocalDate.parse(checkInDate, formatter);
 				
+				if(checkIn == null)
+					checkIn = LocalDate.parse(checkInDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				
 				DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				checkInDate = checkIn.format(newFormatter).toString();
 				
@@ -71,6 +74,9 @@ private Amadeus amadeus;
 				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 				
 				checkOut = LocalDate.parse(checkOutDate, formatter);
+				
+				if(checkOut == null)
+					checkOut = LocalDate.parse(checkOutDate, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 				
 				DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 				checkOutDate = checkOut.format(newFormatter).toString();

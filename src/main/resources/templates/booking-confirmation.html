@@ -29,7 +29,7 @@
 
 <body>
 	
-	<div th:replace="~{fragments/header :: header}"></div>
+	<!--<div th:replace="~{fragments/header :: header}"></div>-->
 		
 	<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('images/bg_1.jpg');">
 			<div class="overlay"></div>
@@ -59,8 +59,8 @@
 		                <p><strong>Booking ID:</strong> <span th:text="${hotelBooking.getBookingId()}"></span></p>
 		                <p><strong>Hotel Name:</strong> <span th:text="${hotelBooking.getHotelName()}"></span></p>
 		                <p><strong>City:</strong> <span th:text="${hotelBooking.getCityName()}"></span> (<span th:text="${cityCode}"></span>)</p>
-		                <p><strong>Check-in Date:</strong> <span th:text="${hotelBooking.CheckInDate()}"></span></p>
-		                <p><strong>Check-out Date:</strong> <span th:text="${hotelBooking.CheckOutDate()}"></span></p>
+		                <p><strong>Check-in Date:</strong> <span th:text="${hotelBooking.getCheckInDate()}"></span></p>
+		                <p><strong>Check-out Date:</strong> <span th:text="${hotelBooking.getCheckOutDate()}"></span></p>
 		                <p><strong>Number of Rooms:</strong> <span th:text="${hotelBooking.getNoOfRooms()}"></span></p>
 		                <p><strong>Number of Guests:</strong> <span th:text="${hotelBooking.getNoOfGuests()}"></span></p>
 		                <p><strong>Booking Status:</strong> <span th:text="${hotelBooking.getBookingStatus()}"></span></p>
