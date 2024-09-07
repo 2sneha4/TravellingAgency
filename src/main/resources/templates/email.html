@@ -3,22 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>Booking Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            font-size: 24px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+        .section-title {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .guest-details, .booking-details {
+            margin-top: 15px;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: #ffffff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Booking Confirmation</h1>
-    <p><strong>Booking ID:</strong> [[${booking.bookingId}]]</p>
-    <p><strong>Hotel Name:</strong> [[${booking.hotelName}]]</p>
-    <p><strong>City:</strong> [[${booking.cityName}]] ([[${booking.cityCode}]])</p>
-    <p><strong>Check-in Date:</strong> [[${booking.checkInDate}]]</p>
-    <p><strong>Check-out Date:</strong> [[${booking.checkOutDate}]]</p>
-    <p><strong>Number of Rooms:</strong> [[${booking.noOfRooms}]]</p>
-    <p><strong>Number of Guests:</strong> [[${booking.noOfGuests}]]</p>
-    <p><strong>Booking Status:</strong> [[${booking.bookingStatus}]]</p>
-    <p><strong>Room Description:</strong> [[${booking.roomDescription}]]</p>
-    <p><strong>Room Category:</strong> [[${booking.roomCategory}]]</p>
-    <p><strong>Bed Type:</strong> [[${booking.roomBedType}]]</p>
-    <p><strong>Payment ID:</strong> [[${booking.paymentId}]]</p>
-    <p><strong>Payment Status:</strong> [[${booking.paymentStatus}]]</p>
-    <p><strong>Total Price:</strong> [[${booking.currency}]] [[${booking.price}]]</p>
+    <div class="email-container">
+        <h1>Booking Confirmation</h1>
+
+        <p class="section-title">Guest Details</p>
+		<div th:each="guest : ${booking.guest}">
+		        <p><strong>First Name:</strong> [[${guest.firstName}]]</p>
+		        <p><strong>Last Name:</strong> [[${guest.lastName}]]</p>
+		        <p><strong>Email:</strong> [[${guest.email}]]</p>
+		        <p><strong>Phone:</strong> [[${guest.phone}]]</p>
+		        <hr style="border: 1px solid #ddd; margin: 15px 0;"> <!-- Separator between guests -->
+		    </div>
+
+        <p class="section-title">Booking Details</p>
+        <p><strong>Booking ID:</strong> [[${booking.bookingId}]]</p>
+        <p><strong>Hotel Name:</strong> [[${booking.hotelName}]]</p>
+        <p><strong>City:</strong> [[${booking.cityName}]] ([[${booking.cityCode}]])</p>
+        <p><strong>Check-in Date:</strong> [[${booking.checkInDate}]]</p>
+        <p><strong>Check-out Date:</strong> [[${booking.checkOutDate}]]</p>
+        <p><strong>Number of Rooms:</strong> [[${booking.noOfRooms}]]</p>
+        <p><strong>Number of Guests:</strong> [[${booking.noOfGuests}]]</p>
+        <p><strong>Booking Status:</strong> [[${booking.bookingStatus}]]</p>
+
+        <p class="section-title">Room Details</p>
+        <p><strong>Description:</strong> [[${booking.roomDescription}]]</p>
+        <p><strong>Category:</strong> [[${booking.roomCategory}]]</p>
+        <p><strong>Bed Type:</strong> [[${booking.roomBedType}]]</p>
+
+        <p class="section-title">Payment Details</p>
+        <p><strong>Payment ID:</strong> [[${booking.paymentId}]]</p>
+        <p><strong>Payment Status:</strong> [[${booking.paymentStatus}]]</p>
+        <p><strong>Total Price:</strong> [[${booking.currency}]] [[${booking.price}]]</p>
+
+        <p>Thank you for booking with us! We look forward to welcoming you.</p>
+        
+        <p><a href="#" class="btn">View Your Booking</a></p>
+
+        <div class="footer">
+            <p>&copy; 2024 Your Hotel. All rights reserved.</p>
+            <p>Contact us at support@yourhotel.com or call 123-456-7890.</p>
+        </div>
+    </div>
 </body>
 </html>
