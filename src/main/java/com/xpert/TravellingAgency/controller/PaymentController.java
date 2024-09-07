@@ -1,6 +1,7 @@
 package com.xpert.TravellingAgency.controller;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,8 +57,18 @@ public class PaymentController {
 	        String cancelUrl = "/payment/cancel";
 	        String successUrl = "/payment/success";
 	        
-	        String price = Double.toString(hotelBooking.getPrice());
 	        String currency = hotelBooking.getCurrency();
+	        double priceInDouble = hotelBooking.getPrice();
+	        
+	        DecimalFormat df = new DecimalFormat("0.00");
+	        
+	        if(currency.equals("INR")) {
+	        	priceInDouble /= 82.0;
+	        	currency = "USD";
+	        }
+	        
+	        // String price = Double.toString(priceInDouble);
+	        String price = df.format(priceInDouble);
 	        
 	        Payment payment = payPalService.createPayment(
 	        		price, 
