@@ -57,7 +57,7 @@
  </div>
 </section>
 
-<section class="ftco-section ftco-no-pb contact-section mb-4">
+<section class="ftco-section ftco-no-pb contact-section mb-4" id="contact-section">
   <div class="container">
     <div class="row d-flex contact-info">
       <div class="col-md-3 d-flex">
@@ -259,6 +259,13 @@ $(document).ready(function() {
     });
 });
 
+</script>
+
+<!-- Scroll to destination-section on page load -->
+<script>
+    window.onload = function() {
+        document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
+    };
 </script>
 
 </body>

@@ -11,6 +11,8 @@ import com.xpert.TravellingAgency.DAO.HotelBookingDAO;
 import com.xpert.TravellingAgency.DAO.LocationListDAO;
 import com.xpert.TravellingAgency.model.HotelBooking;
 
+import jakarta.servlet.http.HttpSession;
+
 
 @Controller
 @RequestMapping("hotel-booking")
@@ -23,8 +25,10 @@ public class HotelBookingPageController {
 	HotelBookingDAO hotelBookingDAO;
 	
 	@GetMapping
-	public String getBooking(@ModelAttribute("hotelBooking") HotelBooking hotelBooking,
-			Model model) {
+	public String getBooking(
+			@ModelAttribute("hotelBooking") HotelBooking hotelBooking,
+			HttpSession session,
+			Model model) {		
 		
 		hotelBookingDAO.saveBookingIntoDB(hotelBooking);
 		
