@@ -12,8 +12,8 @@ public class HotelBooking {
 	@Field("bookingId")
 	private String bookingId;
 	
-	private String userName;
-	private String userEmail;
+	private String username;
+	private String password;
 	
 	private Guest[] guest;
 	private int noOfGuests;
@@ -42,30 +42,38 @@ public class HotelBooking {
 	private String paymentStatus;
 	
 	public HotelBooking() {}
-	
-	
-	
-	public String getUserName() {
-		return userName;
+
+
+
+	public String getUsername() {
+		return username;
 	}
 
 
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 
 
-	public String getUserEmail() {
-		return userEmail;
+
+
+	public String getPassword() {
+		return password;
 	}
 
 
 
-	public void setUserEmail(String userEmail) {
-		this.userEmail = userEmail;
+
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
+
+
 
 
 
