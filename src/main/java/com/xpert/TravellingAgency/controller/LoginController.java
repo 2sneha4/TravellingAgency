@@ -22,20 +22,31 @@ public class LoginController {
     private UserAccountService userAccountService;
 
     @GetMapping("/login")
-    public String showLoginForm() {
-        return "login"; 
+    public String showLoginForm(HttpSession session) {
+        UserAccount user = (UserAccount) session.getAttribute("user");
+        if (user != null) {
+            return "redirect:/";  
+        }
+        return "login";
     }
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<Map<String, String>> login(@RequestParam String username, @RequestParam String password, HttpSession session) {
+    public ResponseEntity<Map<String, String>> login(@RequestParam String username, 
+                                                     @RequestParam String password, 
+                                                     HttpSession session) {
         UserAccount user = userAccountService.findByUsername(username);
         Map<String, String> response = new HashMap<>();
 
-        if (user != null && user.getPassword().equals(password)) {
-            // Successful login
-            session.setAttribute("user", user);
+        if (user != null && user.getPassword().equals(password)) {  
+            session.setAttribute("user", user); 
+
+            String redirectUrl = (String) session.getAttribute("redirectUrl");
+            session.removeAttribute("redirectUrl"); 
+
             response.put("message", "Login successful");
+            response.put("redirectUrl", (redirectUrl != null) ? redirectUrl : "/");  
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.put("error", "Invalid username or password");
@@ -45,7 +56,7 @@ public class LoginController {
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        session.invalidate(); 
-        return "redirect:/"; 
+        session.invalidate();  
+        return "redirect:/";  
     }
 }

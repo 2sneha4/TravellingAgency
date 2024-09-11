@@ -13,7 +13,6 @@ public class UserAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     
-    private Integer userId;
     private String username;
     private String password;
     private String email;
@@ -31,14 +30,7 @@ public class UserAccount {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
+    
     public String getUsername() {
         return username;
     }

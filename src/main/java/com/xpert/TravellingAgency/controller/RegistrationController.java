@@ -31,7 +31,7 @@ public class RegistrationController {
             @RequestParam String fullName,
             @RequestParam Integer age,
             @RequestParam String gender,
-            HttpSession session, // To manage session
+            HttpSession session, 
             Model model) {
         
         if (userAccountService.usernameExists(username)) {
@@ -52,6 +52,6 @@ public class RegistrationController {
 
         session.setAttribute("user", newUser);
         
-        return "redirect:/"; 
+        return "redirect:/login"; 
     }
 }

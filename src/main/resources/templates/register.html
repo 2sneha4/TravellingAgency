@@ -63,7 +63,7 @@
     <script>
         $(document).ready(function () {
             $('#registerForm').on('submit', function (e) {
-                e.preventDefault(); // Prevent the default form submission
+                e.preventDefault(); 
 
                 var formData = $(this).serialize();
 
@@ -72,11 +72,9 @@
                     url: '/register',
                     data: formData,
                     success: function (response) {
-                        // Redirect to login page or home page after successful registration
-                        window.location.href = '/';
+                        window.location.href = '/login';
                     },
                     error: function (xhr) {
-                        // Display error message
                         $('#errorDiv').show();
                         $('#errorText').text(xhr.responseJSON.error || 'An error occurred. Please try again.');
                     }
