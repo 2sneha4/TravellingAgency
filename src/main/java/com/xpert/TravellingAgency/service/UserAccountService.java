@@ -29,4 +29,7 @@ public class UserAccountService {
         Optional<UserAccount> user = userAccountRepository.findById(id);
         return user.orElse(null);
     }
+    public void updateUser(UserAccount user) {
+        userAccountRepository.save(user); 
+    }
 }
