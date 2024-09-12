@@ -18,6 +18,7 @@ import com.xpert.TravellingAgency.DAO.HotelBookingDAO;
 import com.xpert.TravellingAgency.model.HotelBooking;
 import com.xpert.TravellingAgency.service.EmailService;
 import com.xpert.TravellingAgency.service.PayPalService;
+import com.xpert.TravellingAgency.service.UserAccountService;
 
 @Controller
 @RequestMapping("/payment")
@@ -31,6 +32,9 @@ public class PaymentController {
 		
 		@Autowired
 		EmailService emailService;
+		
+		@Autowired
+		UserAccountService userAccountService;
 		
 		@GetMapping
 		public String paymentPage(@ModelAttribute HotelBooking hotelBooking,
@@ -93,7 +97,8 @@ public class PaymentController {
 	        	hotelBookingDAO.saveBookingIntoDB(hotelBooking);
 	        	
 	        	try {
-					emailService.sendBookingConfirmation(hotelBooking.getGuest()[0].getEmail(), hotelBooking);
+	        		String email = userAccountService.findByUsername(hotelBooking.getUsername()).getEmail();
+					emailService.sendBookingConfirmation(email, hotelBooking);
 				} catch (DocumentException e) {
 					e.printStackTrace();
 				} catch (IOException e) {

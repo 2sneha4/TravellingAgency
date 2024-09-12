@@ -58,6 +58,8 @@ public class HotelBookingPageController {
 		UserAccount user = userAccountService.findByUsername(hotelBooking.getUsername());
 		
 		if (user != null && user.getPassword().equals(hotelBooking.getPassword())) {
+			
+			hotelBookingDAO.saveBookingIntoDB(hotelBooking);
             // Successful login
             session.setAttribute("user", user);
             model.addAttribute("hotelBooking", hotelBooking);
