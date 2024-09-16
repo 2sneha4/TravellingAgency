@@ -41,6 +41,8 @@ public class HotelBookingPageController {
 			model.addAttribute("hotelBooking", hotelBooking);
 			return "login-booking";
 		}
+		hotelBooking.setUsername(user.getUsername());
+		hotelBooking.setPassword(user.getPassword());
 		
 		hotelBookingDAO.saveBookingIntoDB(hotelBooking);
 		
