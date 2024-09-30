@@ -55,6 +55,23 @@ public class PaymentController {
 			return "payment";
 			
 		}
+		
+		@GetMapping("/from-profile")
+		public String paymentFromProfile(@RequestParam("bookingId") String bookingId, 
+				Model model) {
+			
+			HotelBooking hotelBooking = hotelBookingDAO.getHotelBookingByBookingId(bookingId);
+			
+			hotelBooking.setBookingStatus("Booked");
+			
+			hotelBookingDAO.deleteExistingBooking(bookingId);
+			hotelBookingDAO.saveBookingIntoDB(hotelBooking);
+			
+			model.addAttribute("hotelBooking", hotelBooking);
+			
+			return "payment";
+			
+		}
 
 	    @GetMapping("/pay")
 	    public String pay(@ModelAttribute HotelBooking hotelBooking, Model model) throws PayPalRESTException {

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.xpert.TravellingAgency.DAO.HotelBookingDAO;
 import com.xpert.TravellingAgency.DAO.LocationListDAO;
@@ -74,6 +75,19 @@ public class HotelBookingPageController {
 			model.addAttribute("message", "Invalid User or Password");
 			return "login-booking";
 		}
+		
+	}
+	
+	@GetMapping("/from-profile")
+	public String getBookingFromProfile(@RequestParam("bookingId") String bookingId, 
+			Model model) {
+		
+		HotelBooking hotelBooking = hotelBookingDAO.getHotelBookingByBookingId(bookingId);
+		
+		model.addAttribute("hotelBooking", hotelBooking);
+		model.addAttribute("navigationPage", "hotel");
+		
+		return "hotel-booking";
 		
 	}
 
