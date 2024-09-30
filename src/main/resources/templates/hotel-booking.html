@@ -107,7 +107,7 @@
 					            <a href="/">Home <i class="fa fa-chevron-right"></i></a>
 					        </span>
 					        <span class="mr-2">
-					            <a href="hotel">Hotel <i class="fa fa-chevron-right"></i></a>
+					            <a th:href="@{/hotel(city=${hotelBooking.getCityName()})}">Hotel <i class="fa fa-chevron-right"></i></a>
 					        </span>
 					        <span class="mr-2">
 								<a th:href="@{/hotel-details(id=${hotelBooking.getHotelId()},checkindate=${hotelBooking.getCheckInDate()},checkoutdate=${hotelBooking.getCheckOutDate()},rooms=${hotelBooking.getNoOfRooms()},guests=${hotelBooking.getNoOfGuests()})}">
@@ -265,11 +265,11 @@
 	<script src="js/main.js"></script>
 	
 	<!-- Scroll to destination-section on page load -->
-			<script>
-			    window.onload = function() {
-			        document.getElementById('booking-section').scrollIntoView({ behavior: 'smooth' });
-			    };
-			</script>
+	<script>
+	    window.onload = function() {
+	        document.getElementById('booking-section').scrollIntoView({ behavior: 'smooth' });
+	    };
+	</script>
 	
 </body>
 

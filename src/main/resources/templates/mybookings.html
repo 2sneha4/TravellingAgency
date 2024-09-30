@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Pacific - Travelling Agency</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Arizonia&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="css/jquery.timepicker.css">
+    <link rel="stylesheet" href="css/flaticon.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url('images/bg_1.jpg');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+                <div class="col-md-9 ftco-animate pb-5 text-center">
+                    <p class="breadcrumbs"><span class="mr-2"><a href="/">Home <i class="fa fa-chevron-right"></i></a></span> <span>My Bookings <i class="fa fa-chevron-right"></i></span></p>
+                    <h1 class="mb-0 bread"  id="mybookings">My Bookings</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .hotel-box {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .hotel-box:hover {
+            transform: scale(1.05);
+        }
+        .hotel-box h5 {
+            margin-bottom: 0;
+        }
+        .hotel-box:nth-child(odd) {
+            background-color: #e3f2fd;
+        }
+        .hotel-box:nth-child(even) {
+            background-color: #ffebee;
+        }
+    </style>
+
+    <!-- My Bookings Section -->
+    <div class="container mt-5">
+        <div th:if="${#lists.isEmpty(bookings)}">
+            <p class="text-center">You have no bookings yet.</p>
+        </div>
+
+        <!-- Hotel Boxes -->
+		<div th:each="booking : ${bookings}" class="hotel-box" 
+		     th:data-booking-id="${booking.bookingId}"
+		     th:data-hotel-name="${booking.hotelName}"
+		     th:data-check-in-date="${booking.checkInDate}"
+		     th:data-check-out-date="${booking.checkOutDate}"
+		     th:data-booking-status="${booking.bookingStatus}"
+		     th:data-payment-status="${booking.paymentStatus}"
+		     onclick="showBookingDetails(this)">
+		    <h5 th:text="${booking.hotelName}">Hotel Name</h5>
+			<div th:if="${booking.guest != null}">
+			       <p>Guest Details:</p>
+			       <ul>
+			           <li th:each="guest : ${booking.guest}">
+			               Name: <span th:text="${guest.firstName + ' ' + guest.lastName}"></span><br>
+			               Email: <span th:text="${guest.email}"></span><br>
+			               Phone: <span th:text="${guest.phone}"></span><br>
+			           </li>
+			       </ul>
+			   </div>
+		    <p>Click to view details</p>
+			<div>
+			    <div th:if="${booking.bookingStatus == 'Not Booked'}">
+			        <button class="btn btn-primary" 
+			                th:data-booking-id="${booking.bookingId}" 
+			                onclick="bookNow(this)">Book Now</button>
+			    </div>
+			    <div th:if="${booking.bookingStatus == 'Booked' && booking.paymentStatus == 'Not Paid'}">
+			        <button class="btn btn-success" 
+			                th:data-booking-id="${booking.bookingId}" 
+			                onclick="payNow(this)">Pay Now</button>
+			    </div>
+			</div>
+
+		</div>
+    <!-- Modal Structure -->
+    <div class="modal fade" id="bookingModal" tabindex="-1" role="dialog" aria-labelledby="bookingModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="bookingModalLabel">Booking Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Hotel Name:</strong> <span id="modalHotelName"></span></p>
+                    <p><strong>Booking ID:</strong> <span id="modalBookingId"></span></p>
+                    <p><strong>Check-In Date:</strong> <span id="modalCheckInDate"></span></p>
+                    <p><strong>Check-Out Date:</strong> <span id="modalCheckOutDate"></span></p>
+                    <p><strong>Status:</strong> <span id="modalBookingStatus"></span></p>
+                    <p><strong>Payment Status:</strong> <span id="modalPaymentStatus"></span></p>
+					<div id="guestDetailsSection" style="display: none;">
+					                   <h5>Guest Details:</h5>
+					                   <div id="modalGuestDetails"></div>
+					               </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS and Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+		function showBookingDetails(element) {
+		    var bookingId = element.getAttribute('data-booking-id');
+		    var hotelName = element.getAttribute('data-hotel-name');
+		    var checkInDate = element.getAttribute('data-check-in-date');
+		    var checkOutDate = element.getAttribute('data-check-out-date');
+		    var bookingStatus = element.getAttribute('data-booking-status');
+		    var paymentStatus = element.getAttribute('data-payment-status');
+		    var guestCount = element.getAttribute('data-guest-count');
+
+		    // Set modal details
+		    document.getElementById('modalHotelName').innerText = hotelName;
+		    document.getElementById('modalBookingId').innerText = bookingId;
+		    document.getElementById('modalCheckInDate').innerText = checkInDate;
+		    document.getElementById('modalCheckOutDate').innerText = checkOutDate;
+		    document.getElementById('modalBookingStatus').innerText = bookingStatus;
+		    document.getElementById('modalPaymentStatus').innerText = paymentStatus;
+
+		  
+		    $('#bookingModal').modal('show');
+		}
+
+    </script>
+	<script>
+		function bookNow(button) {
+		    var bookingId = button.getAttribute('data-booking-id');
+		    console.log('Booking hotel with ID: ' + bookingId); 
+			window.location.href = '/hotel-booking/from-profile?bookingId=' + bookingId;
+
+		 	 
+		}
+
+		function payNow(button) {
+		    var bookingId = button.getAttribute('data-booking-id');
+		    console.log('Processing payment for booking ID: ' + bookingId); 
+			window.location.href = '/payment/from-profile?bookingId=' + bookingId;
+
+		}
+
+
+	</script>
+
+    <!-- Additional JS -->
+    <script src="js/main.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-migrate-3.0.1.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.easing.1.3.js"></script>
+	<script src="js/jquery.waypoints.min.js"></script>
+	<script src="js/jquery.stellar.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/jquery.animateNumber.min.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script src="js/scrollax.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+	<script src="js/google-map.js"></script>
+	<script src="js/main.js"></script>
+	
+	<!-- Scroll to destination-section on page load -->
+	<script>
+	    window.onload = function() {
+	        document.getElementById('mybookings').scrollIntoView({ behavior: 'smooth' });
+	    };
+	</script>
+</body>
+
+</html>
