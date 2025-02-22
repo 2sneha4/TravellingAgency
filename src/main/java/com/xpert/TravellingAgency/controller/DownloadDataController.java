@@ -1,11 +1,11 @@
 package com.xpert.TravellingAgency.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.amadeus.resources.Activity;
 import com.amadeus.resources.Hotel;
@@ -17,7 +17,7 @@ import com.xpert.TravellingAgency.service.ActivityList;
 import com.xpert.TravellingAgency.service.HotelList;
 import com.xpert.TravellingAgency.service.LocationList;
 
-@Controller
+@RestController
 @RequestMapping("/download")
 public class DownloadDataController {
 	
