@@ -12,6 +12,6 @@ import com.xpert.TravellingAgency.model.Activity;
 @Repository
 public interface ActivityRepository extends MongoRepository<Activity, String>, PagingAndSortingRepository<Activity, String> {
 
-	@Query("{ 'geoCode' : { $geoWithin: { $centerSphere: [ [ ?0, ?1 ], ?2 ] } } }")
-    Page<Activity> findAllByLocationWithinRadius(double latitude, double longitude, double radius, Pageable pageable);
+	@Query("{ 'geoCode' : { $geoWithin: { $centerSphere: [ [ ?1, ?0 ], ?2 ] } } }")
+    Page<Activity> findAllByLocationWithinRadius(double longitude, double latitude, double radius, Pageable pageable);
 }
