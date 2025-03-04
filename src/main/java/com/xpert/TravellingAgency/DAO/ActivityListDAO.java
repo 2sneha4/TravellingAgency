@@ -55,7 +55,7 @@ public class ActivityListDAO {
 	
 	public Page<com.xpert.TravellingAgency.model.Activity> getAllActivitiesByCity(double latitude, double longitude, double radius, Pageable pageable) {
 		double radian = radius / 6371;
-		return activityRepository.findAllByLocationWithinRadius(latitude, longitude, radian, pageable);
+		return activityRepository.findAllByLocationWithinRadius(longitude, latitude, radian, pageable);
 	}
 
 }
