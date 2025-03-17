@@ -14,4 +14,7 @@ public interface ActivityRepository extends MongoRepository<Activity, String>, P
 
 	@Query("{ 'geoCode' : { $geoWithin: { $centerSphere: [ [ ?1, ?0 ], ?2 ] } } }")
     Page<Activity> findAllByLocationWithinRadius(double longitude, double latitude, double radius, Pageable pageable);
+	
+	@Query("{ 'geoCode' : { $geoWithin: { $centerSphere: [ [ ?1, ?0 ], ?2 ] } } }")
+    Page<Activity> findAllByLocationWithinRadiusIfNotWorking(double latitude, double longitude, double radius, Pageable pageable);
 }
